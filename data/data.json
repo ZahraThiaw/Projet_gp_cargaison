@@ -1,0 +1,27 @@
+[
+    {
+      "distance": 1500,
+      "frais": 90,
+      "num": 1,
+      "poidsMax": 2000,
+      "nbProduitsMax": 100,
+      "lieuDepart": { "latitude": 48.8566, "longitude": 2.3522 },
+      "lieuArrivee": { "latitude": 34.0522, "longitude": -118.2437 },
+      "dateDepart": "2024-05-01",
+      "dateArrivee": "2024-05-15",
+      "type": "maritime"
+    },
+    {
+      "distance": 500,
+      "frais": 100,
+      "num": 2,
+      "poidsMax": 500,
+      "nbProduitsMax": 50,
+      "lieuDepart": { "latitude": 51.5074, "longitude": -0.1278 },
+      "lieuArrivee": { "latitude": 40.7128, "longitude": -74.0060 },
+      "dateDepart": "2024-06-01",
+      "dateArrivee": "2024-06-05",
+      "type": "aerienne"
+    }
+  ]
+  
