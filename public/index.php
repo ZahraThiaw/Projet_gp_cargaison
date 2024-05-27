@@ -62,24 +62,34 @@
                 <div id="cargaison-form-container">
                     <form id="ajouter-cargaison-form" class="space-y-4 mt-2 bg-white p-4 rounded-xl w-full flex flex-wrap">
                         <h2 class="text-2xl font-bold text-center text-blue-600">Ajouter une Cargaison</h2>
-                        <div class="w-1/2">
+                        <div class="w-full">
                             <label for="type-cargaison" class="block text-base font-medium text-blue-600">Type de Cargaison</label>
                             <select id="type-cargaison" name="type-cargaison"
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                <option value="aerienne">Aérienne</option>
-                                <option value="maritime">Maritime</option>
-                                <option value="routiere">Routière</option>
+                                <option value="Aerienne">Aérienne</option>
+                                <option value="Maritime">Maritime</option>
+                                <option value="Routiere">Routière</option>
                             </select>
                         </div>
                         <div class="w-1/2">
                             <label for="dateDepart" class="block text-base font-medium text-blue-600">Date de Départ</label>
                             <input type="date" id="dateDepart" name="dateDepart"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2" required>
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
                         </div>
                         <div class="w-1/2">
                             <label for="dateArrivee" class="block text-base font-medium text-blue-600">Date d'Arrivée</label>
                             <input type="date" id="dateArrivee" name="dateArrivee"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2" required>
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="lieu-depart" class="block text-base font-medium text-blue-600">Lieu de Départ</label>
+                            <input type="text" id="lieu-depart" name="lieu-depart" placeholder="Lieu de Départ"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="lieu-arrivee" class="block text-base font-medium text-blue-600">Lieu d'Arrivée</label>
+                            <input type="text" id="lieu-arrivee" name="lieu-arrivee" placeholder="Lieu d'Arrivée"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
                         </div>
                         <div class="w-1/2">
                             <label for="poidsOuProduits" class="block text-base font-medium text-blue-600">Choisir Limite</label>
@@ -100,16 +110,6 @@
                             <input type="number" id="nbProduitsMax" name="nbProduitsMax" placeholder="Nombre de Produits Max"
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
                         </div>
-                        <div class="flex flex-col w-1/2">
-                            <label for="lieu-depart" class="block text-base font-medium text-blue-600">Lieu de Départ</label>
-                            <input type="text" id="lieu-depart" name="lieu-depart" placeholder="Lieu de Départ"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
-                        </div>
-                        <div class="flex flex-col w-1/2">
-                            <label for="lieu-arrivee" class="block text-base font-medium text-blue-600">Lieu d'Arrivée</label>
-                            <input type="text" id="lieu-arrivee" name="lieu-arrivee" placeholder="Lieu d'Arrivée"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
-                        </div>
                         <div id="map" class="h-64 mt-4 w-full"></div>
                         <div class="w-1/2">
                             <label for="distance" class="block text-base font-medium text-blue-600">Distance</label>
@@ -124,26 +124,42 @@
 
                 <div class="w-full">
                     <h2 class="text-2xl font-bold mt-4">Liste des Cargaisons</h2>
-                    <!-- <div id="cargaison-container" class="mt-4 space-y-4 w-11/12 flex flex-wrap gap-6">
-
-                    </div> -->
-                    <div id="cargaison-container" class="mt-4 space-y-4 flex flex-wrap gap-6">
-                        <table id="cargaison-table" border="1" class="w-full">
-                        <thead class="w-full">
-                            <tr class="w-full mt-2">
-                            <th>Numéro</th>
-                            <th>Type</th>
-                            <th>Date de départ</th>
-                            <th>Date d'arrivée</th>
-                            <th>Lieu de départ</th>
-                            <th>Lieu d'arrivée</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Les cargaisons seront ajoutées ici -->
-                        </tbody>
+                    
+                    <div id="cargaison-container" class="relative overflow-x-auto mt-8">
+                        <input type="text" id="search-input" placeholder="Rechercher..." class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                        <table id="cargaison-table" class="mt-10 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-2">
+                            <thead class="text-xl text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Numéro
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Type
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Date de départ
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Date d'arrivée
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Lieu de départ
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Lieu d'arrivée
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xl">
+                                <!-- Les cargaisons seront ajoutées ici -->
+                            </tbody>
                         </table>
+
+                        <div id="pagination" class="mt-10">
+                            <!-- Les boutons de pagination seront ajoutés ici par JavaScript -->
+                        </div>
                     </div>
+
                 </div>
             </section>
 
@@ -166,20 +182,6 @@
 
     // Affiche la section dashboard par défaut
     showSection('dashboard');
-
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const showFormBtn = document.getElementById('show-form-btn');
-    //     const form = document.getElementById("ajouter-cargaison-form");
-    //     const close = document.getElementById('close-form-btn');
-
-    //     showFormBtn.addEventListener('click', function() {
-    //         form.classList.remove('hidden');
-    //     });
-
-    //     close.addEventListener('click', function() {
-    //         form.classList.add('hidden');
-    //     });
-    // });
   </script>
 
 
@@ -287,7 +289,6 @@
                 });
         }
     </script>
-
 </body>
 
 </html>
