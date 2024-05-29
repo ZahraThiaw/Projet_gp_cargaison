@@ -12,7 +12,7 @@
 
 <body class="bg-gray-100 flex">
   <!-- Barre de navigation verticale -->
-  <nav class="bg-white w-96 min-h-screen p-4 text-black ">
+  <nav class="bg-white w-80 min-h-screen p-4 text-black ">
     <!-- <h2 class="text-4xl font-bold mb-4">GP du Monde</h2> -->
     <div class="flex justify-center">
     <img src="../public/images/logo.png" class="w-2/3 mt-10" alt="logo">
@@ -45,8 +45,32 @@
         <div class="flex flex-col space-y-8">
             <!-- Section Dashboard -->
             <section id="dashboard" class="section">
-            <h2 class="text-2xl font-bold">Dashboard</h2>
-            <p>Bienvenue sur le tableau de bord de la gestion des cargaisons et des produits.</p>
+                <h2 class="text-2xl font-bold">Dashboard</h2>
+                <p>Bienvenue sur le tableau de bord de la gestion des cargaisons et des produits.</p>
+
+
+
+                <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+                    <li class="flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                        <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                            Personal <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                        </span>
+                    </li>
+                    <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                        <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                            <span class="me-2">2</span>
+                            Account <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                        </span>
+                    </li>
+                    <li class="flex items-center">
+                        <span class="me-2">3</span>
+                        Confirmation
+                    </li>
+                </ol>
+
             </section>
 
             <section id="cargaison" class="section hidden relative">
@@ -70,51 +94,60 @@
                                 <option value="Maritime">Maritime</option>
                                 <option value="Routiere">Routière</option>
                             </select>
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div class="w-1/2">
                             <label for="dateDepart" class="block text-base font-medium text-blue-600">Date de Départ</label>
                             <input type="date" id="dateDepart" name="dateDepart"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div class="w-1/2">
                             <label for="dateArrivee" class="block text-base font-medium text-blue-600">Date d'Arrivée</label>
                             <input type="date" id="dateArrivee" name="dateArrivee"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div class="flex flex-col w-1/2">
                             <label for="lieu-depart" class="block text-base font-medium text-blue-600">Lieu de Départ</label>
                             <input type="text" id="lieu-depart" name="lieu-depart" placeholder="Lieu de Départ"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div class="flex flex-col w-1/2">
                             <label for="lieu-arrivee" class="block text-base font-medium text-blue-600">Lieu d'Arrivée</label>
                             <input type="text" id="lieu-arrivee" name="lieu-arrivee" placeholder="Lieu d'Arrivée"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div class="w-1/2">
                             <label for="poidsOuProduits" class="block text-base font-medium text-blue-600">Choisir Limite</label>
                             <select id="poidsOuProduits" name="poidsOuProduits"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2" onchange="toggleFields()">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2" onchange="toggleFields()">
                                 <option value="">Sélectionner une option</option>
                                 <option value="poidsMax">Poids Max</option>
                                 <option value="nbProduitsMax">Nombre de Produits Max</option>
                             </select>
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div id="poidsMaxDiv" class="w-1/2 hidden">
                             <label for="poidsMax" class="block text-base font-medium text-blue-600">Poids Max</label>
                             <input type="number" id="poidsMax" name="poidsMax" placeholder="Poids Max"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div id="nbProduitsMaxDiv" class="w-1/2 hidden">
                             <label for="nbProduitsMax" class="block text-base font-medium text-blue-600">Nombre de produits Max</label>
                             <input type="number" id="nbProduitsMax" name="nbProduitsMax" placeholder="Nombre de Produits Max"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div id="map" class="h-64 mt-4 w-full"></div>
                         <div class="w-1/2">
                             <label for="distance" class="block text-base font-medium text-blue-600">Distance</label>
                             <input type="text" id="distance" name="distance" readonly
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md shadow-sm">Ajouter Cargaison</button>
                     </form>
@@ -126,7 +159,77 @@
                     <h2 class="text-2xl font-bold mt-4">Liste des Cargaisons</h2>
                     
                     <div id="cargaison-container" class="relative overflow-x-auto mt-8">
-                        <input type="text" id="search-input" placeholder="Rechercher..." class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 border-2">
+                        <!-- <input type="text" id="search-input" placeholder="Rechercher..." class="mt-1 block border-gray-300 rounded-md shadow-sm p-2 border-2"> -->
+                        
+                        <!-- <div id="filter-container" class="flex flex-wrap gap-10">
+                            <div class="w-1/5">
+                                <label for="search-num" class="block text-base font-medium text-blue-600">Recherche par Numéro</label>
+                                <input type="text" id="search-num" placeholder="Recherche par Numéro" class="w-full rounded-lg">
+                            </div>
+                            <div class="w-1/5">
+                                <label for="search-type" class="block text-base font-medium text-blue-600">Recherche par Type</label>
+                                <input type="text" id="search-type" placeholder="Recherche par Type" class="w-full rounded-lg">
+                            </div>
+                            <div class="w-1/5">                            
+                                <label for="search-date-depart" class="block text-base font-medium text-blue-600">Recherche par Date de Départ</label>
+                                <input type="date" id="search-date-depart" placeholder="Recherche par Date de Départ" class="w-full rounded-lg">
+                            </div>
+                            <div class="w-1/5">
+                                <label for="search-date-arrivee" class="block text-base font-medium text-blue-600">Recherche par Date d'Arrivée</label>
+                                <input type="date" id="search-date-arrivee" placeholder="Recherche par Date d'Arrivée" class="w-full rounded-lg">
+                            </div>
+                            <div class="w-1/5">
+                                <label for="search-lieu-depart" class="block text-base font-medium text-blue-600">Recherche par Lieu de Départ</label>
+                                <input type="text" id="search-lieu-depart" placeholder="Recherche par Lieu de Départ" class="w-full rounded-lg">
+                            </div>
+                            <div class="w-1/5">
+                                <label for="search-lieu-arrivee" class="block text-base font-medium text-blue-600 ">Recherche par Lieu d'Arrivée</label>
+                                <input type="text" id="search-lieu-arrivee" placeholder="Recherche par Lieu d'Arrivée" class="w-full rounded-lg">
+                            </div>
+                        </div> -->
+
+                        
+
+                        <div id="filter-container" class="grid grid-cols-4 gap-10">
+                            <div >
+                                <label for="search-type" class="block text-base font-medium text-blue-600">Recherche par Type</label>
+                                <input type="text" id="search-type" placeholder="Type" class="w-2/3 rounded-lg">
+                            </div>
+                            <div>
+                                <label for="search-lieu-depart" class="block text-base font-medium text-blue-600">Recherche par Lieu de Départ</label>
+                                <input type="text" id="search-lieu-depart" placeholder="Lieu de Départ" class="w-2/3 rounded-lg">
+                            </div>
+                            <div>
+                                <label for="search-lieu-arrivee" class="block text-base font-medium text-blue-600">Recherche par Lieu d'Arrivée</label>
+                                <input type="text" id="search-lieu-arrivee" placeholder="Lieu d'Arrivée" class="w-2/3 rounded-lg">
+                            </div>
+                            <button id="more-filters-btn" class="mt-4 text-blue-600">Plus de recherche +</button>
+                        </div>
+                        <div id="active-filters" class="mt-4 flex flex-wrap gap-2"></div>
+
+                        <!-- Popup de filtres supplémentaires -->
+                        <div id="more-filters-popup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+                            <div class="bg-white p-8 rounded-lg w-1/3">
+                                <h2 class="text-xl font-semibold mb-4">Filtres supplémentaires</h2>
+                                <div class="mb-4">
+                                    <label for="search-num" class="block text-base font-medium text-blue-600">Recherche par Numéro</label>
+                                    <input type="text" id="search-num" placeholder="Numéro" class="w-full rounded-lg">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="search-date-depart" class="block text-base font-medium text-blue-600">Recherche par Date de Départ</label>
+                                    <input type="date" id="search-date-depart" placeholder="Date de Départ" class="w-full rounded-lg">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="search-date-arrivee" class="block text-base font-medium text-blue-600">Recherche par Date d'Arrivée</label>
+                                    <input type="date" id="search-date-arrivee" placeholder="Date d'Arrivée" class="w-full rounded-lg">
+                                </div>
+                                <button id="apply-filters-btn" class="bg-blue-500 text-white py-2 px-4 rounded">Rechercher</button>
+                                <button id="close-popup-btn" class="bg-gray-500 text-white py-2 px-4 rounded ml-2">Fermer</button>
+                            </div>
+                        </div>
+
+
+
                         <table id="cargaison-table" class="mt-10 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-2">
                             <thead class="text-xl text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -148,6 +251,13 @@
                                     <th scope="col" class="px-6 py-3">
                                         Lieu d'arrivée
                                     </th>
+                                    <!-- <th scope="col" class="px-6 py-3">
+                                        Etat
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Etape
+                                    </th> -->
+
                                 </tr>
                             </thead>
                             <tbody class="text-xl">
@@ -181,7 +291,7 @@
     }
 
     // Affiche la section dashboard par défaut
-    showSection('dashboard');
+    showSection('cargaison');
   </script>
 
 

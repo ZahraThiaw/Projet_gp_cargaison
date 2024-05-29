@@ -1,4 +1,3 @@
-// Maritime.ts
 import { Cargaison } from './Cargaison.js';
 import { Produit } from './Produit.js';
 
@@ -11,9 +10,11 @@ export class Maritime extends Cargaison {
     lieuDepart: string,
     lieuArrivee: string,
     dateDepart: string,
-    dateArrivee: string
+    dateArrivee: string,
+    etat: 'ouvert' | 'fermé',
+    etape: 'en attente' | 'en cours' | 'arrivé'
   ) {
-    super(distance, 90, num, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
+    super(distance, 90, num, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee, etat, etape);
   }
 
   produitEstValide(produit: Produit): boolean {

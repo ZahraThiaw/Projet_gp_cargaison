@@ -1,4 +1,3 @@
-// Aerienne.ts
 import { Cargaison } from './Cargaison.js';
 import { Produit } from './Produit.js';
 import { Chimique } from './Chimique.js';
@@ -10,11 +9,13 @@ export class Aerienne extends Cargaison {
     poidsMax: number,
     nbProduitsMax: number,
     lieuDepart: string,
-    lieuArrivee:string,
+    lieuArrivee: string,
     dateDepart: string,
-    dateArrivee: string
+    dateArrivee: string,
+    etat: 'ouvert' | 'fermé',
+    etape: 'en attente' | 'en cours' | 'arrivé'
   ) {
-    super(distance, 100, num, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
+    super(distance, 100, num, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee, etat, etape);
   }
 
   produitEstValide(produit: Produit): boolean {

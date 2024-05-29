@@ -1,396 +1,13 @@
-// function greet(name: string): string {
-//     return `Bonjour, ${name}!`;
-// }
+function greet(name: string): string {
+    return `Bonjour, ${name}!`;
+}
 
-// const user = "Alice";
-// console.log(greet(user));
-
-
-// //main.ts
-
-// import { Maritime } from './Model/Maritime.js';
-// import { Aerienne } from './Model/Aerrienne.js';
-// import { Routiere } from './Model/Routiere.js';
-// import { Cargaison } from './Model/Cargaison.js';
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   let cargaisons: Cargaison[] = [];
-//   let cargaisonCounter = 1;
-//   let page = 1;
-//   const itemsPerPage = 2; // Nombre d'éléments par page
-
-//   const form = document.getElementById("ajouter-cargaison-form") as HTMLFormElement;
-//   const cargaisonTableBody = document.querySelector("#cargaison-table tbody") as HTMLTableSectionElement;
-
-//   // Charger les cargaisons existantes depuis le fichier JSON
-//   fetch("../php/data.php")
-//     .then(response => response.json())
-//     .then(data => {
-//       console.log(data);
-//       data.cargo.forEach((cargo: any) => {
-//         console.log('Traitement de la cargaison:', cargo);
-//         let cargaison: Cargaison;
-//         switch (cargo.type) {
-//           case 'Maritime':
-//             cargaison = new Maritime(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
-//             break;
-//           case 'Aerienne':
-//             cargaison = new Aerienne(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
-//             break;
-//           case 'Routiere':
-//             cargaison = new Routiere(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
-//             break;
-//           default:
-//             console.error('Type de cargaison inconnu', cargo.type);
-//             return;
-//         }
-//         cargaisons.push(cargaison);
-//       });
-//       afficherCargaisons();
-//     })
-//     .catch(error => {
-//       console.error('Erreur lors du chargement des cargaisons :', error);
-//     });
-
-//   form.addEventListener("submit", (event) => {
-//     event.preventDefault();
-
-//     const type = (document.getElementById("type-cargaison") as HTMLSelectElement).value;
-//     const dateDepart = (document.getElementById("dateDepart") as HTMLInputElement).value;
-//     const dateArrivee = (document.getElementById("dateArrivee") as HTMLInputElement).value;
-//     const poidsMax = (document.getElementById("poidsMax") as HTMLInputElement).valueAsNumber;
-//     const nbProduitsMax = (document.getElementById("nbProduitsMax") as HTMLInputElement).valueAsNumber;
-//     const lieuDepart = (document.getElementById("lieu-depart") as HTMLInputElement).value;
-//     const lieuArrivee = (document.getElementById("lieu-arrivee") as HTMLInputElement).value;
-//     const distance = parseFloat((document.getElementById("distance") as HTMLInputElement).value);
-
-//     let nouvelleCargaison: Cargaison;
-
-//     console.log('Création de la nouvelle cargaison:', {
-//       type, dateDepart, dateArrivee, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, distance
-//     });
-
-//     switch (type) {
-//       case 'Maritime':
-//         nouvelleCargaison = new Maritime(distance, cargaisonCounter++, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
-//         break;
-//       case 'Aerienne':
-//         nouvelleCargaison = new Aerienne(distance, cargaisonCounter++, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
-//         break;
-//       case 'Routiere':
-//         nouvelleCargaison = new Routiere(distance, cargaisonCounter++, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
-//         break;
-//       default:
-//         console.error('Type de cargaison inconnu', type);
-//         return;
-//     }
-
-//     cargaisons.push(nouvelleCargaison);
-
-//     // Envoyer les cargaisons mises à jour au serveur
-//     fetch("../php/data.php", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({ cargo: cargaisons.map(c => ({
-//         type: c instanceof Maritime ? 'Maritime' : c instanceof Aerienne ? 'Aerienne' : c instanceof Routiere ? 'Routiere' : 'inconnu',
-//         distance: c['_distance'],
-//         poidsMax: c['_poidsMax'],
-//         nbProduitsMax: c['_nbProduitsMax'],
-//         lieuDepart: c['_lieuDepart'],
-//         lieuArrivee: c['_lieuArrivee'],
-//         dateDepart: c['_dateDepart'],
-//         dateArrivee: c['_dateArrivee'],
-//       })) })
-//     })
-//     .then(response => response.text()) // Notez le changement de response.json() à response.text()
-//     .then(data => {
-//       console.log(data);
-//       afficherCargaisons();
-//       form.reset();
-//       form.classList.add("hidden");
-//     })
-//     .catch(error => {
-//       console.error('Erreur lors de l\'envoi des cargaisons :', error);
-//     });
-//   });
-
-//   // function afficherCargaisons() {
-//   //   cargaisonTableBody.innerHTML = '';
-//   //   cargaisons.forEach(cargaison => {
-//   //   const row = document.createElement("tr");
-//   //   row.classList.add("mt-8");
-
-//   //     const type = cargaison instanceof Maritime ? "Maritime" :
-//   //                  cargaison instanceof Aerienne ? "Aerienne" :
-//   //                  cargaison instanceof Routiere ? "Routiere" : "Inconnu";
-
-//   //       row.innerHTML = `
-//   //           <td class="px-6 py-4">
-//   //           ${cargaison['_num']}
-//   //           </td>
-//   //           <td class="px- py-6">
-//   //           ${type}
-//   //           </td>
-//   //           <td class="px-6 py-4">
-//   //           ${cargaison['_dateDepart']}
-//   //           </td>
-//   //           <td class="px-6 py-4">
-//   //           ${cargaison['_dateArrivee']}
-//   //           </td>
-//   //           <td class="px-6 py-4">
-//   //           ${cargaison['_lieuDepart']}
-//   //           </td>
-//   //           <td class="px-6 py-4">
-//   //           ${cargaison['_lieuArrivee']}
-//   //           </td>
-//   //     `;
-//   //     cargaisonTableBody.appendChild(row);
-//   //   });
-//   // }
-
-//   function afficherCargaisons() {
-//     cargaisonTableBody.innerHTML = '';
-//     const startIndex = (page - 1) * itemsPerPage;
-//     const endIndex = startIndex + itemsPerPage;
-//     const cargaisonsToDisplay = cargaisons.slice(startIndex, endIndex);
-
-//     cargaisonsToDisplay.forEach(cargaison => {
-//       const row = document.createElement("tr");
-//       row.classList.add("mt-8");
-
-//       const type = cargaison instanceof Maritime ? "Maritime" :
-//                    cargaison instanceof Aerienne ? "Aerienne" :
-//                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
-
-//       row.innerHTML = `
-//         <td class="px-6 py-4">${cargaison['_num']}</td>
-//         <td class="px- py-6">${type}</td>
-//         <td class="px-6 py-4">${cargaison['_dateDepart']}</td>
-//         <td class="px-6 py-4">${cargaison['_dateArrivee']}</td>
-//         <td class="px-6 py-4">${cargaison['_lieuDepart']}</td>
-//         <td class="px-6 py-4">${cargaison['_lieuArrivee']}</td>
-//       `;
-//       cargaisonTableBody.appendChild(row);
-//     });
-
-//     // Affichage des boutons de pagination
-//     const paginationContainer = document.getElementById("pagination") as HTMLDivElement;
-//     paginationContainer.innerHTML = '';
-//     const totalPages = Math.ceil(cargaisons.length / itemsPerPage);
-//     for (let i = 1; i <= totalPages; i++) {
-//       const button = document.createElement("button");
-//       button.textContent = i.toString();
-//       button.classList.add("mx-2", "px-4", "py-1", "bg-blue-500", "text-white", "rounded");
-//       if (i === page) {
-//         button.classList.add("bg-blue-700");
-//       }
-//       button.addEventListener("click", () => {
-//         page = i;
-//         afficherCargaisons();
-//       });
-//       paginationContainer.appendChild(button);
-
-//       // Ajouter un espace après chaque bouton, sauf le dernier
-//       if (i < totalPages) {
-//         const space = document.createTextNode(" ");
-//         paginationContainer.appendChild(space);
-//       }
-//     }
-
-
-//   }
-// });
-
-
-// import { Maritime } from './Model/Maritime.js';
-// import { Aerienne } from './Model/Aerrienne.js';
-// import { Routiere } from './Model/Routiere.js';
-// import { Cargaison } from './Model/Cargaison.js';
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   let cargaisons: Cargaison[] = [];
-//   let cargaisonCounter = 1;
-//   let page = 1;
-//   const itemsPerPage = 3; // Nombre d'éléments par page
-
-//   const form = document.getElementById("ajouter-cargaison-form") as HTMLFormElement;
-//   const cargaisonTableBody = document.querySelector("#cargaison-table tbody") as HTMLTableSectionElement;
-//   const searchInput = document.getElementById("search-input") as HTMLInputElement;
-
-//   // Charger les cargaisons existantes depuis le fichier JSON
-//   fetch("../php/data.php")
-//     .then(response => response.json())
-//     .then(data => {
-//       console.log(data);
-//       data.cargo.forEach((cargo: any) => {
-//         console.log('Traitement de la cargaison:', cargo);
-//         let cargaison: Cargaison;
-//         switch (cargo.type) {
-//           case 'Maritime':
-//             cargaison = new Maritime(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
-//             break;
-//           case 'Aerienne':
-//             cargaison = new Aerienne(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
-//             break;
-//           case 'Routiere':
-//             cargaison = new Routiere(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
-//             break;
-//           default:
-//             console.error('Type de cargaison inconnu', cargo.type);
-//             return;
-//         }
-//         cargaisons.push(cargaison);
-//       });
-//       afficherCargaisons();
-//     })
-//     .catch(error => {
-//       console.error('Erreur lors du chargement des cargaisons :', error);
-//     });
-
-//   form.addEventListener("submit", (event) => {
-//     event.preventDefault();
-
-//     const type = (document.getElementById("type-cargaison") as HTMLSelectElement).value;
-//     const dateDepart = (document.getElementById("dateDepart") as HTMLInputElement).value;
-//     const dateArrivee = (document.getElementById("dateArrivee") as HTMLInputElement).value;
-//     const poidsMax = (document.getElementById("poidsMax") as HTMLInputElement).valueAsNumber;
-//     const nbProduitsMax = (document.getElementById("nbProduitsMax") as HTMLInputElement).valueAsNumber;
-//     const lieuDepart = (document.getElementById("lieu-depart") as HTMLInputElement).value;
-//     const lieuArrivee = (document.getElementById("lieu-arrivee") as HTMLInputElement).value;
-//     const distance = parseFloat((document.getElementById("distance") as HTMLInputElement).value);
-
-//     let nouvelleCargaison: Cargaison;
-
-//     console.log('Création de la nouvelle cargaison:', {
-//       type, dateDepart, dateArrivee, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, distance
-//     });
-
-//     switch (type) {
-//       case 'Maritime':
-//         nouvelleCargaison = new Maritime(distance, cargaisonCounter++, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
-//         break;
-//       case 'Aerienne':
-//         nouvelleCargaison = new Aerienne(distance, cargaisonCounter++, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
-//         break;
-//       case 'Routiere':
-//         nouvelleCargaison = new Routiere(distance, cargaisonCounter++, poidsMax, nbProduitsMax, lieuDepart, lieuArrivee, dateDepart, dateArrivee);
-//         break;
-//       default:
-//         console.error('Type de cargaison inconnu', type);
-//         return;
-//     }
-
-//     cargaisons.push(nouvelleCargaison);
-
-//     // Envoyer les cargaisons mises à jour au serveur
-//     fetch("../php/data.php", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({ cargo: cargaisons.map(c => ({
-//         type: c instanceof Maritime ? 'Maritime' : c instanceof Aerienne ? 'Aerienne' : c instanceof Routiere ? 'Routiere' : 'inconnu',
-//         distance: c['_distance'],
-//         poidsMax: c['_poidsMax'],
-//         nbProduitsMax: c['_nbProduitsMax'],
-//         lieuDepart: c['_lieuDepart'],
-//         lieuArrivee: c['_lieuArrivee'],
-//         dateDepart: c['_dateDepart'],
-//         dateArrivee: c['_dateArrivee'],
-//       })) })
-//     })
-//     .then(response => response.text()) // Notez le changement de response.json() à response.text()
-//     .then(data => {
-//       console.log(data);
-//       afficherCargaisons();
-//       form.reset();
-//       form.classList.add("hidden");
-//     })
-//     .catch(error => {
-//       console.error('Erreur lors de l\'envoi des cargaisons :', error);
-//     });
-//   });
-
-//   searchInput.addEventListener("input", () => {
-//     page = 1; // Reset to first page on new search
-//     afficherCargaisons();
-//   });
-
-//   function afficherCargaisons() {
-//     cargaisonTableBody.innerHTML = '';
-//     const searchQuery = searchInput.value.toLowerCase();
-//     const filteredCargaisons = cargaisons.filter(cargaison => {
-//       const type = cargaison instanceof Maritime ? "Maritime" :
-//                    cargaison instanceof Aerienne ? "Aerienne" :
-//                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
-
-//       return (
-//         cargaison['_num'].toString().includes(searchQuery) ||
-//         type.toLowerCase().includes(searchQuery) ||
-//         cargaison['_lieuDepart'].toLowerCase().includes(searchQuery) ||
-//         cargaison['_lieuArrivee'].toLowerCase().includes(searchQuery) ||
-//         cargaison['_dateDepart'].toLowerCase().includes(searchQuery) ||
-//         cargaison['_dateArrivee'].toLowerCase().includes(searchQuery)
-//       );
-//     });
-
-//     const startIndex = (page - 1) * itemsPerPage;
-//     const endIndex = startIndex + itemsPerPage;
-//     const cargaisonsToDisplay = filteredCargaisons.slice(startIndex, endIndex);
-
-//     cargaisonsToDisplay.forEach(cargaison => {
-//       const row = document.createElement("tr");
-//       row.classList.add("mt-8");
-
-//       const type = cargaison instanceof Maritime ? "Maritime" :
-//                    cargaison instanceof Aerienne ? "Aerienne" :
-//                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
-
-//       row.innerHTML = `
-//         <td class="px-6 py-4">${cargaison['_num']}</td>
-//         <td class="px- py-6">${type}</td>
-//         <td class="px-6 py-4">${cargaison['_dateDepart']}</td>
-//         <td class="px-6 py-4">${cargaison['_dateArrivee']}</td>
-//         <td class="px-6 py-4">${cargaison['_lieuDepart']}</td>
-//         <td class="px-6 py-4">${cargaison['_lieuArrivee']}</td>
-//       `;
-//       cargaisonTableBody.appendChild(row);
-//     });
-
-//     // Affichage des boutons de pagination
-//     const paginationContainer = document.getElementById("pagination") as HTMLDivElement;
-//     paginationContainer.innerHTML = '';
-//     const totalPages = Math.ceil(filteredCargaisons.length / itemsPerPage);
-//     for (let i = 1; i <= totalPages; i++) {
-//       const button = document.createElement("button");
-//       button.textContent = i.toString();
-//       button.classList.add("mx-2", "px-4", "py-1", "bg-blue-500", "text-white", "rounded");
-//       if (i === page) {
-//         button.classList.add("bg-blue-700");
-//       }
-//       button.addEventListener("click", () => {
-//         page = i;
-//         afficherCargaisons();
-//       });
-//       paginationContainer.appendChild(button);
-
-//       // Ajouter un espace après chaque bouton, sauf le dernier
-//       if (i < totalPages) {
-//         const space = document.createTextNode(" ");
-//         paginationContainer.appendChild(space);
-//       }
-//     }
-//   }
-// });
-
-
-
+const user = "Alice";
+console.log(greet(user));
 
 
 import { Maritime } from './Model/Maritime.js';
-import { Aerienne } from './Model/Aerrienne.js';
+import { Aerienne } from './Model/Aerienne.js';
 import { Routiere } from './Model/Routiere.js';
 import { Cargaison } from './Model/Cargaison.js';
 
@@ -398,29 +15,59 @@ document.addEventListener("DOMContentLoaded", () => {
   let cargaisons: Cargaison[] = [];
   let cargaisonCounter = 1;
   let page = 1;
-  const itemsPerPage = 3; // Nombre d'éléments par page
+  const itemsPerPage = 5; // Nombre d'éléments par page
 
   const form = document.getElementById("ajouter-cargaison-form") as HTMLFormElement;
+  const dialog = document.getElementById("my_modal_3") as HTMLDialogElement;
   const cargaisonTableBody = document.querySelector("#cargaison-table tbody") as HTMLTableSectionElement;
-  const searchInput = document.getElementById("search-input") as HTMLInputElement;
 
-  // Charger les cargaisons existantes depuis le fichier JSON
+  const searchInputs = {
+    type: document.getElementById("search-type") as HTMLInputElement,
+    lieuDepart: document.getElementById("search-lieu-depart") as HTMLInputElement,
+    lieuArrivee: document.getElementById("search-lieu-arrivee") as HTMLInputElement
+  };
+
+  const searchInputsmores = {
+    num: document.getElementById("search-num") as HTMLInputElement,
+    dateDepart: document.getElementById("search-date-depart") as HTMLInputElement,
+    dateArrivee: document.getElementById("search-date-arrivee") as HTMLInputElement,
+  }
+
+  const moreFiltersBtn = document.getElementById("more-filters-btn") as HTMLButtonElement;
+  const moreFiltersPopup = document.getElementById("more-filters-popup") as HTMLDivElement;
+  const applyFiltersBtn = document.getElementById("apply-filters-btn") as HTMLButtonElement;
+  const closePopupBtn = document.getElementById("close-popup-btn") as HTMLButtonElement;
+  const activeFiltersContainer = document.getElementById("active-filters") as HTMLDivElement;
+
+  moreFiltersBtn.addEventListener("click", () => {
+    moreFiltersPopup.classList.remove("hidden");
+  });
+
+  closePopupBtn.addEventListener("click", () => {
+    moreFiltersPopup.classList.add("hidden");
+  });
+
+  applyFiltersBtn.addEventListener("click", () => {
+    moreFiltersPopup.classList.add("hidden");
+    updateActiveFilters();
+    afficherCargaisons();
+  });
+
+  // Charger les cargaisons existantes à partir du fichier JSON
   fetch("../php/data.php")
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       data.cargo.forEach((cargo: any) => {
-        console.log('Traitement de la cargaison:', cargo);
         let cargaison: Cargaison;
         switch (cargo.type) {
           case 'Maritime':
-            cargaison = new Maritime(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
+            cargaison = new Maritime(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee, cargo.etat, cargo.etape);
             break;
-          case 'Aerienne':
-            cargaison = new Aerienne(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
+          case 'Aerienne':                  
+            cargaison = new Aerienne(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee, cargo.etat, cargo.etape);
             break;
           case 'Routiere':
-            cargaison = new Routiere(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee);
+            cargaison = new Routiere(cargo.distance, cargaisonCounter++, cargo.poidsMax, cargo.nbProduitsMax, cargo.lieuDepart, cargo.lieuArrivee, cargo.dateDepart, cargo.dateArrivee, cargo.etat, cargo.etape);
             break;
           default:
             console.error('Type de cargaison inconnu', cargo.type);
@@ -447,85 +94,81 @@ document.addEventListener("DOMContentLoaded", () => {
     const lieuArrivee = formData.get("lieu-arrivee") as string;
     const distance = parseFloat(formData.get("distance") as string);
 
+    // Réinitialiser les messages d'erreur
+    document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
+
     // Validation des champs
     let isValid = true;
     const today = new Date().toISOString().split("T")[0];
-    const errors: string[] = [];
 
     if (!type) {
       isValid = false;
-      errors.push("Type de cargaison est requis.");
+      setError("type-cargaison", "Type de cargaison est requis.");
     }
 
     if (!dateDepart) {
       isValid = false;
-      errors.push("Date de départ est requise.");
+      setError("dateDepart", "Date de départ est requise.");
     } else if (dateDepart < today) {
       isValid = false;
-      errors.push("Date de départ doit être aujourd'hui ou plus tard.");
+      setError("dateDepart", "Date de départ doit être supérieure ou égale à aujourd'hui.");
     }
 
     if (!dateArrivee) {
       isValid = false;
-      errors.push("Date d'arrivée est requise.");
+      setError("dateArrivee", "Date d'arrivée est requise.");
     } else if (dateArrivee < dateDepart) {
       isValid = false;
-      errors.push("Date d'arrivée doit être après la date de départ.");
+      setError("dateArrivee", "Date d'arrivée doit être supérieure ou égale à la date de départ.");
     }
 
     if (!lieuDepart) {
       isValid = false;
-      errors.push("Lieu de départ est requis.");
+      setError("lieu-depart", "Lieu de départ est requis.");
     }
 
     if (!lieuArrivee) {
       isValid = false;
-      errors.push("Lieu d'arrivée est requis.");
+      setError("lieu-arrivee", "Lieu d'arrivée est requis.");
     }
 
-    if (!distance) {
+    if (!poidsOuProduits) {
       isValid = false;
-      errors.push("Distance est requise.");
-    }
-
-    if (poidsOuProduits === "poidsMax") {
-      if (!poidsMax) {
-        isValid = false;
-        errors.push("Poids maximum est requis.");
-      }
-    } else if (poidsOuProduits === "nbProduitsMax") {
-      if (!nbProduitsMax) {
-        isValid = false;
-        errors.push("Nombre de produits maximum est requis.");
-      }
-    } else {
+      setError("poidsOuProduits", "Veuillez choisir une limite.");
+    } else if (poidsOuProduits === "poidsMax" && (!poidsMax || parseFloat(poidsMax) <= 0)) {
       isValid = false;
-      errors.push("Sélectionnez une option pour Poids ou Nombre de produits.");
+      setError("poidsMax", "Poids max est requis et doit être supérieur à 0.");
+    } else if (poidsOuProduits === "nbProduitsMax" && (!nbProduitsMax || parseInt(nbProduitsMax) <= 0)) {
+      isValid = false;
+      setError("nbProduitsMax", "Nombre de produits max est requis et doit être supérieur à 0.");
     }
 
     if (!isValid) {
-      alert(errors.join("\n"));
       return;
     }
 
     let nouvelleCargaison: Cargaison;
+    const etat = "ouvert";
+    const etape = "en attente";
 
     switch (type) {
       case 'Maritime':
-        nouvelleCargaison = new Maritime(distance, cargaisonCounter++, parseFloat(poidsMax), parseInt(nbProduitsMax), lieuDepart, lieuArrivee, dateDepart, dateArrivee);
+        nouvelleCargaison = new Maritime(distance, cargaisonCounter++, parseFloat(poidsMax), parseInt(nbProduitsMax), lieuDepart, lieuArrivee, dateDepart, dateArrivee, etat, etape);
         break;
       case 'Aerienne':
-        nouvelleCargaison = new Aerienne(distance, cargaisonCounter++, parseFloat(poidsMax), parseInt(nbProduitsMax), lieuDepart, lieuArrivee, dateDepart, dateArrivee);
+        nouvelleCargaison = new Aerienne(distance, cargaisonCounter++, parseFloat(poidsMax), parseInt(nbProduitsMax), lieuDepart, lieuArrivee, dateDepart, dateArrivee, etat, etape);
         break;
       case 'Routiere':
-        nouvelleCargaison = new Routiere(distance, cargaisonCounter++, parseFloat(poidsMax), parseInt(nbProduitsMax), lieuDepart, lieuArrivee, dateDepart, dateArrivee);
+        nouvelleCargaison = new Routiere(distance, cargaisonCounter++, parseFloat(poidsMax), parseInt(nbProduitsMax), lieuDepart, lieuArrivee, dateDepart, dateArrivee, etat, etape);
         break;
       default:
-        console.error('Type de cargaison inconnu', type);
+        console.error("Type de cargaison inconnu:", type);
         return;
     }
 
     cargaisons.push(nouvelleCargaison);
+
+    console.log(nouvelleCargaison);
 
     // Envoyer les cargaisons mises à jour au serveur
     fetch("../php/data.php", {
@@ -536,12 +179,15 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify({ cargo: cargaisons.map(c => ({
         type: c instanceof Maritime ? 'Maritime' : c instanceof Aerienne ? 'Aerienne' : c instanceof Routiere ? 'Routiere' : 'inconnu',
         distance: c['_distance'],
+        num: c['_num'],
         poidsMax: c['_poidsMax'],
         nbProduitsMax: c['_nbProduitsMax'],
         lieuDepart: c['_lieuDepart'],
         lieuArrivee: c['_lieuArrivee'],
         dateDepart: c['_dateDepart'],
         dateArrivee: c['_dateArrivee'],
+        etat: c['_etat'],
+        etape: c['_etape']
       })) })
     })
     .then(response => response.text())
@@ -549,33 +195,85 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(data);
       afficherCargaisons();
       form.reset();
-      form.classList.add("hidden");
+      dialog.close(); // Fermer le dialogue après l'envoi réussi
     })
     .catch(error => {
-      console.error('Erreur lors de l\'envoi des cargaisons :', error);
+      console.error("Erreur lors de l'envoi des cargaisons :", error);
     });
   });
 
-  searchInput.addEventListener("input", () => {
-    page = 1; // Reset to first page on new search
-    afficherCargaisons();
+  Object.values(searchInputs).forEach(input => {
+    input.addEventListener("input", () => {
+      page = 1; // Réinitialiser à la première page lors d'une nouvelle recherche
+      afficherCargaisons();
+    });
   });
 
+  Object.values(searchInputsmores).forEach(input => {
+    input.addEventListener("input", () => {
+      page = 1; // Réinitialiser à la première page lors d'une nouvelle recherche
+      updateActiveFilters();
+      afficherCargaisons();
+    });
+  })
+
+  
+
+  function setError(fieldId: string, message: string) {
+    const errorMessageElement = document.querySelector(`#${fieldId} ~ .error-message`) as HTMLSpanElement;
+    if (errorMessageElement) {
+      errorMessageElement.textContent = message;
+    }
+  }
+
+  function updateActiveFilters() {
+    activeFiltersContainer.innerHTML = "";
+
+    Object.keys(searchInputsmores).forEach(key => {
+      const input = searchInputsmores[key as keyof typeof searchInputsmores];
+      if (input.value) {
+        const filterElement = document.createElement("span");
+        filterElement.classList.add("px-4", "py-2", "bg-white", "text-gray-700",  "rounded", "flex", "items-center", "gap-2");
+        filterElement.textContent = `${input.placeholder}: ${input.value}`;
+        const removeBtn = document.createElement("button");
+        removeBtn.innerHTML = "&times;";
+        removeBtn.classList.add("ml-2", "text-red-500", "font-bold");
+        removeBtn.addEventListener("click", () => {
+          input.value = "";
+          updateActiveFilters();
+          afficherCargaisons();
+        });
+        filterElement.appendChild(removeBtn);
+        activeFiltersContainer.appendChild(filterElement);
+      }
+    });
+  }
+
   function afficherCargaisons() {
-    cargaisonTableBody.innerHTML = '';
-    const searchQuery = searchInput.value.toLowerCase();
+    cargaisonTableBody.innerHTML = "";
+    const searchQueries = {
+      type: searchInputs.type.value.toLowerCase(),
+      lieuDepart: searchInputs.lieuDepart.value.toLowerCase(),
+      lieuArrivee: searchInputs.lieuArrivee.value.toLowerCase()
+    };
+    const searchQueriesmores = {
+      num: searchInputsmores.num.value.toLowerCase(),
+      dateDepart: searchInputsmores.dateDepart.value.toLowerCase(),
+      dateArrivee: searchInputsmores.dateArrivee.value.toLowerCase()
+    }
+
     const filteredCargaisons = cargaisons.filter(cargaison => {
       const type = cargaison instanceof Maritime ? "Maritime" :
                    cargaison instanceof Aerienne ? "Aerienne" :
                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
 
       return (
-        cargaison['_num'].toString().includes(searchQuery) ||
-        type.toLowerCase().includes(searchQuery) ||
-        cargaison['_lieuDepart'].toLowerCase().includes(searchQuery) ||
-        cargaison['_lieuArrivee'].toLowerCase().includes(searchQuery) ||
-        cargaison['_dateDepart'].toLowerCase().includes(searchQuery) ||
-        cargaison['_dateArrivee'].toLowerCase().includes(searchQuery)
+        cargaison['_num'].toString().includes(searchQueriesmores.num) &&
+        type.toLowerCase().includes(searchQueries.type) &&
+        cargaison['_lieuDepart'].toLowerCase().includes(searchQueries.lieuDepart) &&
+        cargaison['_lieuArrivee'].toLowerCase().includes(searchQueries.lieuArrivee) &&
+        cargaison['_dateDepart'].toLowerCase().includes(searchQueriesmores.dateDepart) &&
+        cargaison['_dateArrivee'].toLowerCase().includes(searchQueriesmores.dateArrivee)
       );
     });
 
@@ -593,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       row.innerHTML = `
         <td class="px-6 py-4">${cargaison['_num']}</td>
-        <td class="px- py-6">${type}</td>
+        <td class="px-6 py-4">${type}</td>
         <td class="px-6 py-4">${cargaison['_dateDepart']}</td>
         <td class="px-6 py-4">${cargaison['_dateArrivee']}</td>
         <td class="px-6 py-4">${cargaison['_lieuDepart']}</td>
@@ -602,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cargaisonTableBody.appendChild(row);
     });
 
-    // Affichage des boutons de pagination
+    // Afficher les boutons de pagination
     const paginationContainer = document.getElementById("pagination") as HTMLDivElement;
     paginationContainer.innerHTML = '';
     const totalPages = Math.ceil(filteredCargaisons.length / itemsPerPage);
@@ -626,6 +324,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
-
 });
+
 
