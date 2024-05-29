@@ -1,5 +1,9 @@
 import { Cargaison } from './Cargaison.js';
 import { Produit } from './Produit.js';
+import { Alimentaire } from './Alimentaire.js';
+import { Chimique } from './Chimique.js';
+import { Fragile } from './Fragile.js';
+import { Incassable } from './Incassable.js';
 
 export class Maritime extends Cargaison {
   constructor(
@@ -18,6 +22,20 @@ export class Maritime extends Cargaison {
   }
 
   produitEstValide(produit: Produit): boolean {
-    return true; // Add logic if necessary
+    return !(produit instanceof Fragile); // Les produits fragiles ne doivent pas passer par voie maritime
+  }
+
+  calculerFrais(produit: Produit): number {
+    let frais = 0;
+    if (produit instanceof Alimentaire) {
+      frais = 90 * produit.poids * this.distance + 5000; // 90F/kg/km + 5000F frais de chargement
+    } else if (produit instanceof Chimique) {
+      frais = 500 * produit.poids * (produit as Chimique).degreToxicite + 10000; // 500F/kg * degré de toxicité + 5000F frais d'entretien
+    } else if (produit instanceof Incassable) {
+      frais = 400 * produit.poids * this.distance; // 400F/kg/km pour les matériels
+    }
+    return frais;
   }
 }
+
+

@@ -1,15 +1,46 @@
 function greet(name: string): string {
-    return `Bonjour, ${name}!`;
+  return `Bonjour, ${name}!`;
 }
 
 const user = "Alice";
 console.log(greet(user));
 
-
 import { Maritime } from './Model/Maritime.js';
 import { Aerienne } from './Model/Aerienne.js';
 import { Routiere } from './Model/Routiere.js';
 import { Cargaison } from './Model/Cargaison.js';
+
+import { Alimentaire } from './Model/Alimentaire.js';
+import { Chimique } from './Model/Chimique.js';
+import { Fragile } from './Model/Fragile.js';
+import { Incassable } from './Model/Incassable.js';
+
+// Création des produits
+const pomme = new Alimentaire('Pomme', 1);
+const acide = new Chimique('Acide', 2, 3); // 2 kg, degré de toxicité 3
+const vase = new Fragile('Vase', 1);
+const boite = new Incassable('Boîte', 2);
+
+// Création d'une cargaison maritime
+const cargaisonMaritime = new Aerienne(100, 1, 500, 10, 'Abidjan', 'Lagos', '2023-05-01', '2023-05-10', 'ouvert', 'en attente');
+
+// Ajout des produits à la cargaison maritime
+cargaisonMaritime.ajouterProduit(pomme);
+cargaisonMaritime.ajouterProduit(acide);
+cargaisonMaritime.ajouterProduit(vase); // Cela devrait échouer car les produits fragiles ne sont pas valides pour maritime
+cargaisonMaritime.ajouterProduit(boite);
+
+// Affichage des informations des produits
+pomme.info(cargaisonMaritime);
+acide.info(cargaisonMaritime);
+vase.info(cargaisonMaritime); // Cela n'affichera pas les frais car vase n'est pas ajouté
+boite.info(cargaisonMaritime);
+
+// Affichage du montant total de la cargaison
+cargaisonMaritime.afficherMontant();
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   let cargaisons: Cargaison[] = [];
@@ -22,20 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const cargaisonTableBody = document.querySelector("#cargaison-table tbody") as HTMLTableSectionElement;
 
   const searchInputs = {
-    type: document.getElementById("search-type") as HTMLInputElement,
-    lieuDepart: document.getElementById("search-lieu-depart") as HTMLInputElement,
-    lieuArrivee: document.getElementById("search-lieu-arrivee") as HTMLInputElement
+    type: document.getElementById("search-type") as HTMLInputElement
   };
 
   const searchInputsmores = {
     num: document.getElementById("search-num") as HTMLInputElement,
     dateDepart: document.getElementById("search-date-depart") as HTMLInputElement,
     dateArrivee: document.getElementById("search-date-arrivee") as HTMLInputElement,
+    lieuDepart: document.getElementById("search-lieu-depart") as HTMLInputElement,
+    lieuArrivee: document.getElementById("search-lieu-arrivee") as HTMLInputElement
   }
 
   const moreFiltersBtn = document.getElementById("more-filters-btn") as HTMLButtonElement;
   const moreFiltersPopup = document.getElementById("more-filters-popup") as HTMLDivElement;
-  const applyFiltersBtn = document.getElementById("apply-filters-btn") as HTMLButtonElement;
+  //const applyFiltersBtn = document.getElementById("apply-filters-btn") as HTMLButtonElement;
   const closePopupBtn = document.getElementById("close-popup-btn") as HTMLButtonElement;
   const activeFiltersContainer = document.getElementById("active-filters") as HTMLDivElement;
 
@@ -47,11 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
     moreFiltersPopup.classList.add("hidden");
   });
 
-  applyFiltersBtn.addEventListener("click", () => {
-    moreFiltersPopup.classList.add("hidden");
-    updateActiveFilters();
-    afficherCargaisons();
-  });
+  // applyFiltersBtn.addEventListener("click", () => {
+  //   moreFiltersPopup.classList.add("hidden");
+  //   updateActiveFilters();
+  //   afficherCargaisons();
+  // });
 
   // Charger les cargaisons existantes à partir du fichier JSON
   fetch("../php/data.php")
@@ -252,14 +283,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function afficherCargaisons() {
     cargaisonTableBody.innerHTML = "";
     const searchQueries = {
-      type: searchInputs.type.value.toLowerCase(),
-      lieuDepart: searchInputs.lieuDepart.value.toLowerCase(),
-      lieuArrivee: searchInputs.lieuArrivee.value.toLowerCase()
+      type: searchInputs.type.value.toLowerCase()
     };
     const searchQueriesmores = {
       num: searchInputsmores.num.value.toLowerCase(),
       dateDepart: searchInputsmores.dateDepart.value.toLowerCase(),
-      dateArrivee: searchInputsmores.dateArrivee.value.toLowerCase()
+      dateArrivee: searchInputsmores.dateArrivee.value.toLowerCase(),
+      lieuDepart: searchInputsmores.lieuDepart.value.toLowerCase(),
+      lieuArrivee: searchInputsmores.lieuArrivee.value.toLowerCase()
     }
 
     const filteredCargaisons = cargaisons.filter(cargaison => {
@@ -270,8 +301,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return (
         cargaison['_num'].toString().includes(searchQueriesmores.num) &&
         type.toLowerCase().includes(searchQueries.type) &&
-        cargaison['_lieuDepart'].toLowerCase().includes(searchQueries.lieuDepart) &&
-        cargaison['_lieuArrivee'].toLowerCase().includes(searchQueries.lieuArrivee) &&
+        cargaison['_lieuDepart'].toLowerCase().includes(searchQueriesmores.lieuDepart) &&
+        cargaison['_lieuArrivee'].toLowerCase().includes(searchQueriesmores.lieuArrivee) &&
         cargaison['_dateDepart'].toLowerCase().includes(searchQueriesmores.dateDepart) &&
         cargaison['_dateArrivee'].toLowerCase().includes(searchQueriesmores.dateArrivee)
       );

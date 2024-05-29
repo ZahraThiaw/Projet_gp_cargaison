@@ -2,7 +2,7 @@ import { Produit } from './Produit.js';
 
 export abstract class Cargaison {
   private _distance: number;
-  private _frais: number;
+  protected _frais: number; // Rend _frais accessible par les sous-classes
   private _produits: Produit[];
   private _num: number;
   private _poidsMax: number;
@@ -41,7 +41,6 @@ export abstract class Cargaison {
     this._etape = etape;
   }
 
-  // Getter and setter methods for the new properties
   get etat(): 'ouvert' | 'fermé' {
     return this._etat;
   }
@@ -58,14 +57,16 @@ export abstract class Cargaison {
     this._etape = value;
   }
 
-  // Other getter and setter methods...
+  get distance(): number {
+    return this._distance;
+  }
 
   ajouterProduit(produit: Produit): void {
     if (this._etat === 'fermé') {
       console.log("La cargaison est fermée, vous ne pouvez pas ajouter de produits");
       return;
     }
-    if (this._produits.length >= this._nbProduitsMax) {
+    if (this._produits.length >= this._nbProduitsMax || this.getPoidsTotal() + produit.poids > this._poidsMax) {
       console.log('La cargaison est pleine');
       return;
     }
@@ -78,9 +79,7 @@ export abstract class Cargaison {
     this.afficherMontant();
   }
 
-  calculerFrais(produit: Produit): number {
-    return this._frais * produit.poids * this._distance;
-  }
+  abstract calculerFrais(produit: Produit): number;
 
   sommeTotale(): number {
     return this._produits.reduce((total, produit) => total + this.calculerFrais(produit), 0);
@@ -88,6 +87,10 @@ export abstract class Cargaison {
 
   afficherMontant(): void {
     console.log(`Montant total de la cargaison: ${this.sommeTotale()} F`);
+  }
+
+  getPoidsTotal(): number {
+    return this._produits.reduce((total, produit) => total + produit.poids, 0);
   }
 
   abstract produitEstValide(produit: Produit): boolean;

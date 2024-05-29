@@ -124,31 +124,30 @@
                             <label for="poidsOuProduits" class="block text-base font-medium text-blue-600">Choisir Limite</label>
                             <select id="poidsOuProduits" name="poidsOuProduits"
                                 class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2" onchange="toggleFields()">
-                                <option value="">Sélectionner une option</option>
                                 <option value="poidsMax">Poids Max</option>
                                 <option value="nbProduitsMax">Nombre de Produits Max</option>
                             </select>
                             <span class="error-message text-red-600 text-sm"></span>
                         </div>
-                        <div id="poidsMaxDiv" class="w-1/2 hidden">
+                        <div id="poidsMaxDiv" class="w-1/2">
                             <label for="poidsMax" class="block text-base font-medium text-blue-600">Poids Max</label>
-                            <input type="number" id="poidsMax" name="poidsMax" placeholder="Poids Max"
+                            <input type="number" min="1" id="poidsMax" name="poidsMax" placeholder="Poids Max"
                                 class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
                             <span class="error-message text-red-600 text-sm"></span>
                         </div>
                         <div id="nbProduitsMaxDiv" class="w-1/2 hidden">
                             <label for="nbProduitsMax" class="block text-base font-medium text-blue-600">Nombre de produits Max</label>
-                            <input type="number" id="nbProduitsMax" name="nbProduitsMax" placeholder="Nombre de Produits Max"
+                            <input type="number" min="1" id="nbProduitsMax" name="nbProduitsMax" placeholder="Nombre de Produits Max"
                                 class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
                             <span class="error-message text-red-600 text-sm"></span>
                         </div>
-                        <div id="map" class="h-64 mt-4 w-full"></div>
                         <div class="w-1/2">
                             <label for="distance" class="block text-base font-medium text-blue-600">Distance</label>
                             <input type="text" id="distance" name="distance" readonly
                                 class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
                             <span class="error-message text-red-600 text-sm"></span>
                         </div>
+                        <div id="map" class="h-64 mt-4 w-full"></div>
                         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md shadow-sm">Ajouter Cargaison</button>
                     </form>
                 </div>
@@ -190,18 +189,10 @@
 
                         
 
-                        <div id="filter-container" class="grid grid-cols-4 gap-10">
+                        <div id="filter-container" class="flex gap-2">
                             <div >
                                 <label for="search-type" class="block text-base font-medium text-blue-600">Recherche par Type</label>
                                 <input type="text" id="search-type" placeholder="Type" class="w-2/3 rounded-lg">
-                            </div>
-                            <div>
-                                <label for="search-lieu-depart" class="block text-base font-medium text-blue-600">Recherche par Lieu de Départ</label>
-                                <input type="text" id="search-lieu-depart" placeholder="Lieu de Départ" class="w-2/3 rounded-lg">
-                            </div>
-                            <div>
-                                <label for="search-lieu-arrivee" class="block text-base font-medium text-blue-600">Recherche par Lieu d'Arrivée</label>
-                                <input type="text" id="search-lieu-arrivee" placeholder="Lieu d'Arrivée" class="w-2/3 rounded-lg">
                             </div>
                             <button id="more-filters-btn" class="mt-4 text-blue-600">Plus de recherche +</button>
                         </div>
@@ -223,8 +214,18 @@
                                     <label for="search-date-arrivee" class="block text-base font-medium text-blue-600">Recherche par Date d'Arrivée</label>
                                     <input type="date" id="search-date-arrivee" placeholder="Date d'Arrivée" class="w-full rounded-lg">
                                 </div>
-                                <button id="apply-filters-btn" class="bg-blue-500 text-white py-2 px-4 rounded">Rechercher</button>
-                                <button id="close-popup-btn" class="bg-gray-500 text-white py-2 px-4 rounded ml-2">Fermer</button>
+                                <div>
+                                    <label for="search-lieu-depart" class="block text-base font-medium text-blue-600">Recherche par Lieu de Départ</label>
+                                    <input type="text" id="search-lieu-depart" placeholder="Lieu de Départ" class="w-full rounded-lg">
+                                </div>
+                                <div>
+                                    <label for="search-lieu-arrivee" class="block text-base font-medium text-blue-600">Recherche par Lieu d'Arrivée</label>
+                                    <input type="text" id="search-lieu-arrivee" placeholder="Lieu d'Arrivée" class="w-full rounded-lg">
+                                </div>
+                                <!-- <button id="apply-filters-btn" class="bg-blue-500 text-white py-2 px-4 rounded">Rechercher</button> -->
+                                <div class="flex justify-center">
+                                    <button id="close-popup-btn" class="bg-red-500 text-white py-2 px-4 rounded ml-2 mt-5">Fermer</button>
+                                </div>
                             </div>
                         </div>
 
@@ -342,6 +343,7 @@
                 startMarker.on('dragend', function () {
                     getCityName(startMarker.getLatLng(), startInput);
                     calculateDistance();
+                    traceDistance(startInput, endInput);
                 });
 
             } else if (!endMarker || endInput.value === "") {
@@ -367,9 +369,11 @@
                 endMarker.on('dragend', function () {
                     getCityName(endMarker.getLatLng(), endInput);
                     calculateDistance();
+                    traceDistance(startInput, endInput);
                 });
 
                 calculateDistance();
+                traceDistance(startInput, endInput);
             }
         });
 
@@ -382,6 +386,18 @@
             } else {
                 distanceInput.value = '';
             }
+        }
+
+        function traceDistance(startInput, endInput) {
+          //effacer dabord la ligne si il y en a une
+          if (line) {
+            
+            map.removeLayer(line);
+            line = null;
+          }
+          var distance = startInput.getLatLng().distanceTo(endInput.getLatLng()) / 1000;
+          var line = L.polyline([startInput.getLatLng(), endInput.getLatLng()], { color: 'red' }).addTo(map);
+          return distance;
         }
 
         function getCityName(latlng, inputElement) {
