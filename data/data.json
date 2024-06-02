@@ -1,1 +1,167 @@
-{"cargo":[{"type":"Aerienne","distance":45.27,"poidsMax":8,"nbProduitsMax":null,"lieuDepart":"Paris","lieuArrivee":"Auffreville-Brasseuil","dateDepart":"2024-05-29","dateArrivee":"2024-06-02","etat":"ouvert","etape":"en attente"},{"type":"Maritime","distance":96.01,"poidsMax":8,"nbProduitsMax":null,"lieuDepart":"Paris","lieuArrivee":"Bernienville","dateDepart":"2024-06-10","dateArrivee":"2024-06-20","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":12.75,"poidsMax":890,"nbProduitsMax":null,"lieuDepart":"Paris","lieuArrivee":"Bezons","dateDepart":"2024-06-23","dateArrivee":"2024-07-03","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":54.36,"poidsMax":null,"nbProduitsMax":7,"lieuDepart":"Bailly-Romainvilliers","lieuArrivee":"Champagne-sur-Oise","dateDepart":"2024-06-08","dateArrivee":"2024-07-04","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":51.15,"poidsMax":1000,"nbProduitsMax":null,"lieuDepart":"Paris","lieuArrivee":"Giremoutiers","dateDepart":"2024-06-29","dateArrivee":"2024-07-25","etat":"ouvert","etape":"en attente"},{"type":"Maritime","distance":20.09,"poidsMax":500,"nbProduitsMax":null,"lieuDepart":"Paris","lieuArrivee":"Gournay-sur-Marne","dateDepart":"2024-05-29","dateArrivee":"2024-06-13","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":55.11,"poidsMax":null,"nbProduitsMax":7,"lieuDepart":"Bagnolet","lieuArrivee":"Jouarre","dateDepart":"2024-05-28","dateArrivee":"2024-06-20","etat":"ouvert","etape":"en attente"},{"type":"Maritime","distance":1119.19,"poidsMax":120000,"nbProduitsMax":null,"lieuDepart":"Launay-Villiers","lieuArrivee":"Royaume-Uni","dateDepart":"2024-06-22","dateArrivee":"2024-07-12","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":1725.66,"poidsMax":null,"nbProduitsMax":10,"lieuDepart":"Paris","lieuArrivee":"Ogre","dateDepart":"2024-06-15","dateArrivee":"2024-06-22","etat":"ouvert","etape":"en attente"},{"type":"Maritime","distance":108.4,"poidsMax":22000,"nbProduitsMax":null,"lieuDepart":"Vincennes","lieuArrivee":"Vert-Toulon","dateDepart":"2024-05-30","dateArrivee":"2024-06-02","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":283.12,"poidsMax":150000,"nbProduitsMax":null,"lieuDepart":"Reims","lieuArrivee":"Le Havre","dateDepart":"2024-06-08","dateArrivee":"2024-06-12","etat":"ouvert","etape":"en attente"},{"type":"Routiere","distance":30.79,"poidsMax":4500000,"nbProduitsMax":null,"lieuDepart":"Paris","lieuArrivee":"Serris","dateDepart":"2024-06-07","dateArrivee":"2024-06-10","etat":"ouvert","etape":"en attente"}]}
+{
+    "cargo": [
+        {
+            "distance": 835.35,
+            "num": 1,
+            "poidsMax": 51,
+            "nbProduitsMax": null,
+            "lieuDepart": "Paris",
+            "lieuArrivee": "Irlande",
+            "dateDepart": "2024-07-29",
+            "dateArrivee": "2024-07-30",
+            "etat": "ouvert",
+            "etape": "en attente",
+            "produits": [],
+            "type": "Aerienne"
+        },
+        {
+            "distance": 5689.03,
+            "num": 2,
+            "poidsMax": 620,
+            "nbProduitsMax": null,
+            "lieuDepart": "Scugog",
+            "lieuArrivee": "Sert\u00e3",
+            "dateDepart": "2024-06-20",
+            "dateArrivee": "2024-06-21",
+            "etat": "ouvert",
+            "etape": "en attente",
+            "produits": [
+                {
+                    "_libelle": "Upton Nixon",
+                    "_poids": 97,
+                    "_statut": "en attente",
+                    "_client": {
+                        "name": null,
+                        "username": "Aliquid reprehenderi",
+                        "address": "Consectetur esse com",
+                        "phone": "+1 (915) 616-7371",
+                        "email": "wixegemi@mailinator.com"
+                    },
+                    "_destinataire": {
+                        "name": "Noelle Mercado",
+                        "username": "Fugiat cillum proide",
+                        "address": "Et voluptatem nostru",
+                        "phone": "+1 (185) 545-5944",
+                        "email": "pamo@mailinator.com"
+                    },
+                    "code": 138203077333,
+                    "type": "Fragile"
+                },
+                {
+                    "_libelle": "Shelley Mejia",
+                    "_poids": 83,
+                    "_statut": "en attente",
+                    "_client": {
+                        "name": null,
+                        "username": "Tempora recusandae ",
+                        "address": "Ut nihil placeat no",
+                        "phone": "+1 (296) 611-9067",
+                        "email": "zisexuzywu@mailinator.com"
+                    },
+                    "_destinataire": {
+                        "name": "Ivan Pope",
+                        "username": "Dolorum quisquam pra",
+                        "address": "Fuga Delectus haru",
+                        "phone": "+1 (815) 666-6806",
+                        "email": "vexicapa@mailinator.com"
+                    },
+                    "code": 317976164325,
+                    "type": "Alimentaire"
+                },
+                {
+                    "_libelle": "Lara Hinton",
+                    "_poids": 440,
+                    "_statut": "en attente",
+                    "_client": {
+                        "name": null,
+                        "username": "Quos a id voluptatem",
+                        "address": "Explicabo Voluptate",
+                        "phone": "+1 (729) 218-7974",
+                        "email": "meqagenufa@mailinator.com"
+                    },
+                    "_destinataire": {
+                        "name": "Lillith Lee",
+                        "username": "Dicta architecto omn",
+                        "address": "Eius consequuntur qu",
+                        "phone": "+1 (423) 886-6258",
+                        "email": "nypozacin@mailinator.com"
+                    },
+                    "code": 651869038540,
+                    "type": "Incassable"
+                }
+            ],
+            "type": "Aerienne"
+        },
+        {
+            "distance": 8394.47,
+            "num": 3,
+            "poidsMax": null,
+            "nbProduitsMax": 5,
+            "lieuDepart": "Porta",
+            "lieuArrivee": "Colombie",
+            "dateDepart": "2024-05-31",
+            "dateArrivee": "2024-06-01",
+            "etat": "ouvert",
+            "etape": "en attente",
+            "produits": [],
+            "type": "Maritime"
+        },
+        {
+            "distance": 36.96,
+            "num": 4,
+            "poidsMax": 73,
+            "nbProduitsMax": 6,
+            "lieuDepart": "Paris",
+            "lieuArrivee": "Montry",
+            "dateDepart": "2024-10-03",
+            "dateArrivee": "2024-10-04",
+            "etat": "ouvert",
+            "etape": "en attente",
+            "produits": [
+                {
+                    "_libelle": "Ishmael Atkinson",
+                    "_poids": 29,
+                    "_statut": "en attente",
+                    "_client": {
+                        "name": null,
+                        "username": "Tempore ut et a et",
+                        "address": "Id dolore animi et ",
+                        "phone": "+1 (245) 151-4405",
+                        "email": "becibop@mailinator.com"
+                    },
+                    "_destinataire": {
+                        "name": "Josiah Pope",
+                        "username": "Et consequatur Nobi",
+                        "address": "Ratione sit aut duis",
+                        "phone": "+1 (116) 832-6543",
+                        "email": "bynoci@mailinator.com"
+                    },
+                    "code": 549825964159,
+                    "type": "Alimentaire"
+                },
+                {
+                    "_libelle": "Marvin Mueller",
+                    "_poids": 30,
+                    "_statut": "en attente",
+                    "_client": {
+                        "name": null,
+                        "username": "Esse aute ipsum ape",
+                        "address": "Aut ut sed molestiae",
+                        "phone": "+1 (776) 893-5019",
+                        "email": "buxulicepu@mailinator.com"
+                    },
+                    "_destinataire": {
+                        "name": "Althea Conway",
+                        "username": "Quae in laboris aspe",
+                        "address": "Ut sed qui anim hic ",
+                        "phone": "+1 (317) 311-8655",
+                        "email": "zukisafeve@mailinator.com"
+                    },
+                    "code": 692432714340,
+                    "type": "Alimentaire"
+                }
+            ],
+            "type": "Aerienne"
+        }
+    ]
+}

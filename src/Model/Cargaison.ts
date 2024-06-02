@@ -1,22 +1,22 @@
 import { Produit } from './Produit.js';
 
 export abstract class Cargaison {
-  private _distance: number;
-  protected _frais: number; // Rend _frais accessible par les sous-classes
-  private _produits: Produit[];
-  private _num: number;
-  private _poidsMax: number;
-  private _nbProduitsMax: number;
-  private _lieuDepart: string;
-  private _lieuArrivee: string;
-  private _dateDepart: string;
-  private _dateArrivee: string;
-  private _etat: 'ouvert' | 'fermé';
-  private _etape: 'en attente' | 'en cours' | 'arrivé';
+  protected abstract type :string;
+  private distance: number;
+  private num: number;
+  private poidsMax: number;
+  private nbProduitsMax: number;
+  private lieuDepart: string;
+  private lieuArrivee: string;
+  private dateDepart: string;
+  private dateArrivee: string;
+  private etat: 'ouvert' | 'fermé';
+  private etape: 'en attente' | 'en cours' | 'arrivé';
+  protected abstract produits: Produit[];
+  
 
   constructor(
     distance: number,
-    frais: number,
     num: number,
     poidsMax: number,
     nbProduitsMax: number,
@@ -27,62 +27,98 @@ export abstract class Cargaison {
     etat: 'ouvert' | 'fermé',
     etape: 'en attente' | 'en cours' | 'arrivé'
   ) {
-    this._distance = distance;
-    this._frais = frais;
-    this._num = num;
-    this._poidsMax = poidsMax;
-    this._nbProduitsMax = nbProduitsMax;
-    this._lieuDepart = lieuDepart;
-    this._lieuArrivee = lieuArrivee;
-    this._dateDepart = dateDepart;
-    this._dateArrivee = dateArrivee;
-    this._produits = [];
-    this._etat = etat;
-    this._etape = etape;
+    this.distance = distance;
+    this.num = num;
+    this.poidsMax = poidsMax;
+    this.nbProduitsMax = nbProduitsMax;
+    this.lieuDepart = lieuDepart;
+    this.lieuArrivee = lieuArrivee;
+    this.dateDepart = dateDepart;
+    this.dateArrivee = dateArrivee;
+    this.etat = etat;
+    this.etape = etape;
   }
 
-  get etat(): 'ouvert' | 'fermé' {
-    return this._etat;
+  get _num(): number {
+    return this.num;
   }
 
-  set etat(value: 'ouvert' | 'fermé') {
-    this._etat = value;
+  set _num(value: number) {
+    this.num = value;
   }
 
-  get etape(): 'en attente' | 'en cours' | 'arrivé' {
-    return this._etape;
+  get _etat(): 'ouvert' | 'fermé' {
+    return this.etat;
   }
 
-  set etape(value: 'en attente' | 'en cours' | 'arrivé') {
-    this._etape = value;
+  set _etat(value: 'ouvert' | 'fermé') {
+    this.etat = value;
   }
 
-  get distance(): number {
-    return this._distance;
+  get _etape(): 'en attente' | 'en cours' | 'arrivé' {
+    return this.etape;
   }
+
+  set _etape(value: 'en attente' | 'en cours' | 'arrivé') {
+    this.etape = value;
+  }
+
+  get _distance(): number {
+    return this.distance;
+  }
+  
 
   ajouterProduit(produit: Produit): void {
-    if (this._etat === 'fermé') {
-      console.log("La cargaison est fermée, vous ne pouvez pas ajouter de produits");
+    if (this.etat !== 'ouvert') {
+      alert("La cargaison n'est pas ouverte, vous ne pouvez pas ajouter de produits");
       return;
     }
-    if (this._produits.length >= this._nbProduitsMax || this.getPoidsTotal() + produit.poids > this._poidsMax) {
-      console.log('La cargaison est pleine');
+    if (this.etape !== 'en attente') {
+      alert("La cargaison n'est plus en attente, vous ne pouvez pas ajouter de nouveaux produits");
+      return;
+    }
+    if (this.estPleine()) {
+      alert("La cargaison est pleine, vous ne pouvez pas ajouter de nouveaux produits");
       return;
     }
     if (!this.produitEstValide(produit)) {
-      console.log("Produit non valide pour cette cargaison");
+      alert("Produit non valide pour cette cargaison");
       return;
     }
-    this._produits.push(produit);
+    this.produits.push(produit);
     console.log(`${produit.libelle} ajouté à la cargaison`);
+    alert(`${produit.libelle} ajouté à la cargaison`);
     this.afficherMontant();
   }
+
+  estPleine() {
+      // Vérifier si le nombre de produits est égal au nombre maximum de produits
+      if (this.produits.length === this.nbProduitsMax) {
+          return true;
+      }
+
+      // Calculer le poids total des produits
+      const poidsTotal = this.produits.reduce((total, produit) => total + produit.poids, 0);
+
+      // Vérifier si le poids total des produits est égal au poids maximum de la cargaison
+      if (poidsTotal === this.poidsMax) {
+          return true;
+      }
+
+      // Si aucun des critères n'est rempli, la cargaison n'est pas pleine
+      return false;
+  }
+
+// Méthode pour obtenir le type de la cargaison
+getType() {
+  return "Cargaison";
+}
+
 
   abstract calculerFrais(produit: Produit): number;
 
   sommeTotale(): number {
-    return this._produits.reduce((total, produit) => total + this.calculerFrais(produit), 0);
+    return this.produits.reduce((total, produit) => total + this.calculerFrais(produit), 0);
   }
 
   afficherMontant(): void {
@@ -90,7 +126,7 @@ export abstract class Cargaison {
   }
 
   getPoidsTotal(): number {
-    return this._produits.reduce((total, produit) => total + produit.poids, 0);
+    return this.produits.reduce((total, produit) => total + produit.poids, 0);
   }
 
   abstract produitEstValide(produit: Produit): boolean;

@@ -234,6 +234,7 @@
                         <table id="cargaison-table" class="mt-10 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-2">
                             <thead class="text-xl text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3">Sélection</th>
                                     <th scope="col" class="px-6 py-3">
                                         Numéro
                                     </th>
@@ -270,6 +271,116 @@
                             <!-- Les boutons de pagination seront ajoutés ici par JavaScript -->
                         </div>
                     </div>
+                    
+                     <!-- You can open the modal using ID.showModal() method -->
+            <!-- <button class="btn bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm absolute right-0" onclick="my_modal_4.showModal()">Ajouter Produit</button> -->
+            <dialog id="my_modal_4" class="modal">
+            <div class="modal-box w-11/12 max-w-5xl">
+                <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+
+                <div id="product-form-container">
+                    <form id="product-form" class="space-y-4 mt-2 bg-white p-4 rounded-xl w-full flex flex-wrap">
+                        <div class="flex flex-col w-1/2">
+                            <label for="client-name" class="block text-base font-medium text-blue-600">Nom du client</label>
+                            <input type="text" id="client-name" name="lclient-name" placeholder="client-name"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="client-prenom" class="block text-base font-medium text-blue-600">Prénom du client</label>
+                            <input type="text" id="client-prenom" name="client-prenom" placeholder="client-prenom"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="client-adresse" class="block text-base font-medium text-blue-600">Adreese du client</label>
+                            <input type="text" id="client-adresse" name="client-adresse" placeholder="client-adresse"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="client-telephone" class="block text-base font-medium text-blue-600">Téléphone du client</label>
+                            <input type="text" id="client-telephone" name="client-telephone" placeholder="client-telephone"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="client-email" class="block text-base font-medium text-blue-600">Email du client</label>
+                            <input type="text" id="client-email" name="client-email" placeholder="client-email"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+
+                        <div class="flex flex-col w-1/2">
+                            <label for="recipient-name" class="block text-base font-medium text-blue-600">Nom du destinataire</label>
+                            <input type="text" id="recipient-name" name="recipient-name" placeholder="recipient-name"
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                                <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="recipient-prenom" class="block text-base font-medium text-blue-600">Prénom du destinataire</label>
+                            <input type="text" id="recipient-prenom" name="recipient-prenom" placeholder="recipient-prenom"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="recipient-adresse" class="block text-base font-medium text-blue-600">Adreese du destinataire</label>
+                            <input type="text" id="recipient-adresse" name="recipient-adresse" placeholder="recipient-adresse"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="recipient-telephone" class="block text-base font-medium text-blue-600">Téléphone du destinataire</label>
+                            <input type="text" id="recipient-telephone" name="recipient-telephone" placeholder="recipient-telephone"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="flex flex-col w-1/2">
+                            <label for="recipient-email" class="block text-base font-medium text-blue-600">Email du destinataire</label>
+                            <input type="text" id="recipient-email" name="recipient-email" placeholder="recipient-email"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        
+                        <div class="w-1/2">
+                            <label for="product-name" class="block text-base font-medium text-blue-600">Nom du produit</label>
+                            <input type="text" id="product-name" name="product-name"
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="w-1/2">
+                            <label for="product-weight" class="block text-base font-medium text-blue-600">Poids du produit</label>
+                            <input type="number" min="1" id="product-weight" name="product-weight"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="w-1/2">
+                            <label for="product-type" class="block text-base font-medium text-blue-600">Type de produit</label>
+                            <select id="product-type" name="product-type"
+                                class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2" onchange="toggleFields()">
+                                <option value="Chimique">Chimique</option>
+                                <option value="Alimentaire">Alimentaire</option>
+                                <option value="Incassable">Incassable</option>
+                                <option value="Fragile">Fragile</option>
+
+                            </select>
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <div class="w-1/2">
+                            <label for="degre-de-toxicite" class="block text-base font-medium text-blue-600">Dégré de toxicité</label>
+                            <input type="number" min="1" max="10" id="degre-de-toxicite" name="degre-de-toxicite"
+                            class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
+                            <span class="error-message text-red-600 text-sm"></span>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md shadow-sm">Ajouter</button>
+                    </form>
+                </div>
+            </div>
+            </dialog>
+
+
 
                 </div>
             </section>
@@ -303,6 +414,11 @@
             const poidsOuProduits = document.getElementById('poidsOuProduits').value;
             document.getElementById('poidsMaxDiv').classList.toggle('hidden', poidsOuProduits !== 'poidsMax');
             document.getElementById('nbProduitsMaxDiv').classList.toggle('hidden', poidsOuProduits !== 'nbProduitsMax');
+        }
+
+        function togglechimicalFields() {
+            const productType = document.getElementById('product-type').value;
+            document.getElementById('degre-de-toxicite').classList.toggle('hidden', productType !== 'Chimique');
         }
 
         const map = L.map('map').setView([48.8566, 2.3522], 13); // Paris par défaut

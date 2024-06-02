@@ -1,9 +1,3 @@
-function greet(name: string): string {
-  return `Bonjour, ${name}!`;
-}
-
-const user = "Alice";
-console.log(greet(user));
 
 import { Maritime } from './Model/Maritime.js';
 import { Aerienne } from './Model/Aerienne.js';
@@ -14,35 +8,47 @@ import { Alimentaire } from './Model/Alimentaire.js';
 import { Chimique } from './Model/Chimique.js';
 import { Fragile } from './Model/Fragile.js';
 import { Incassable } from './Model/Incassable.js';
-
-// Création des produits
-const pomme = new Alimentaire('Pomme', 1);
-const acide = new Chimique('Acide', 2, 3); // 2 kg, degré de toxicité 3
-const vase = new Fragile('Vase', 1);
-const boite = new Incassable('Boîte', 2);
-
-// Création d'une cargaison maritime
-const cargaisonMaritime = new Aerienne(100, 1, 500, 10, 'Abidjan', 'Lagos', '2023-05-01', '2023-05-10', 'ouvert', 'en attente');
-
-// Ajout des produits à la cargaison maritime
-cargaisonMaritime.ajouterProduit(pomme);
-cargaisonMaritime.ajouterProduit(acide);
-cargaisonMaritime.ajouterProduit(vase); // Cela devrait échouer car les produits fragiles ne sont pas valides pour maritime
-cargaisonMaritime.ajouterProduit(boite);
-
-// Affichage des informations des produits
-pomme.info(cargaisonMaritime);
-acide.info(cargaisonMaritime);
-vase.info(cargaisonMaritime); // Cela n'affichera pas les frais car vase n'est pas ajouté
-boite.info(cargaisonMaritime);
-
-// Affichage du montant total de la cargaison
-cargaisonMaritime.afficherMontant();
+import { Produit, statut, client, destinataire } from './Model/Produit.js';
 
 
+// const cargaison = new Routiere(
+//   1000,    // distance
+//   1,       // num
+//   10000,   // poidsMax
+//   5,       // nbProduitsMax
+//   'Port A', // lieuDepart
+//   'Port B', // lieuArrivee
+//   '2024-06-01', // dateDepart
+//   '2024-06-05', // dateArrivee
+//   'ouvert',     // etat
+//   'en attente'  // etape
+// );
+
+// const prod1 = new Alimentaire('Pomme', 200);
+// const prod2 = new Chimique('Produit Chimique', 100, 2);
+// const prod3 = new Incassable('Boîte en métal', 300);
+
+// cargaison.ajouterProduit(prod1);
+// cargaison.ajouterProduit(prod2);
+// cargaison.ajouterProduit(prod3);
+
+// console.log(cargaison);
 
 
-document.addEventListener("DOMContentLoaded", () => {
+// // Afficher les produits ajoutés et la somme totale
+// console.log("Produits dans la cargaison:");
+// cargaison.produits.forEach(produit => console.log(`${produit.libelle}: ${produit.poids} kg`));
+
+// console.log(`Poids total de la cargaison: ${cargaison.getPoidsTotal()} kg`);
+// console.log(`Montant total de la cargaison: ${cargaison.sommeTotale()} F`);
+
+// console.log(cargaison);
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", async () => {
   let cargaisons: Cargaison[] = [];
   let cargaisonCounter = 1;
   let page = 1;
@@ -202,35 +208,51 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(nouvelleCargaison);
 
     // Envoyer les cargaisons mises à jour au serveur
+    // fetch("../php/data.php", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({ cargo: cargaisons.map(c => ({
+    //     type: c instanceof Maritime ? 'Maritime' : c instanceof Aerienne ? 'Aerienne' : c instanceof Routiere ? 'Routiere' : 'inconnu',
+    //     distance: c['distance'],
+    //     num: c['num'],
+    //     poidsMax: c['poidsMax'],
+    //     nbProduitsMax: c['nbProduitsMax'],
+    //     lieuDepart: c['lieuDepart'],
+    //     lieuArrivee: c['lieuArrivee'],
+    //     dateDepart: c['dateDepart'],
+    //     dateArrivee: c['dateArrivee'],
+    //     etat: c['etat'],
+    //     etape: c['etape'],
+    //     produits: c['produits'] // Ajouter les produits
+    //   })) })
+    // })
+    // .then(response => response.text())
+    // .then(data => {
+    //   console.log(data);
+    //   afficherCargaisons();
+    //   form.reset();
+    //   dialog.close(); // Fermer le dialogue après l'envoi réussi
+    // })
+    // .catch(error => {
+    //   console.error("Erreur lors de l'envoi des cargaisons :", error);
+    // });
+
+
     fetch("../php/data.php", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ cargo: cargaisons.map(c => ({
-        type: c instanceof Maritime ? 'Maritime' : c instanceof Aerienne ? 'Aerienne' : c instanceof Routiere ? 'Routiere' : 'inconnu',
-        distance: c['_distance'],
-        num: c['_num'],
-        poidsMax: c['_poidsMax'],
-        nbProduitsMax: c['_nbProduitsMax'],
-        lieuDepart: c['_lieuDepart'],
-        lieuArrivee: c['_lieuArrivee'],
-        dateDepart: c['_dateDepart'],
-        dateArrivee: c['_dateArrivee'],
-        etat: c['_etat'],
-        etape: c['_etape']
-      })) })
+      body: JSON.stringify(cargaisons),
     })
-    .then(response => response.text())
-    .then(data => {
-      console.log(data);
-      afficherCargaisons();
-      form.reset();
-      dialog.close(); // Fermer le dialogue après l'envoi réussi
-    })
-    .catch(error => {
-      console.error("Erreur lors de l'envoi des cargaisons :", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        data.cargo.push(nouvelleCargaison); // Ajouter les cargaisons mises à jour au tableau cargaisons;
+        save(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
   });
 
   Object.values(searchInputs).forEach(input => {
@@ -292,44 +314,152 @@ document.addEventListener("DOMContentLoaded", () => {
       lieuDepart: searchInputsmores.lieuDepart.value.toLowerCase(),
       lieuArrivee: searchInputsmores.lieuArrivee.value.toLowerCase()
     }
-
+  
     const filteredCargaisons = cargaisons.filter(cargaison => {
       const type = cargaison instanceof Maritime ? "Maritime" :
                    cargaison instanceof Aerienne ? "Aerienne" :
                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
-
+  
       return (
-        cargaison['_num'].toString().includes(searchQueriesmores.num) &&
+        cargaison['num'].toString().includes(searchQueriesmores.num) &&
         type.toLowerCase().includes(searchQueries.type) &&
-        cargaison['_lieuDepart'].toLowerCase().includes(searchQueriesmores.lieuDepart) &&
-        cargaison['_lieuArrivee'].toLowerCase().includes(searchQueriesmores.lieuArrivee) &&
-        cargaison['_dateDepart'].toLowerCase().includes(searchQueriesmores.dateDepart) &&
-        cargaison['_dateArrivee'].toLowerCase().includes(searchQueriesmores.dateArrivee)
+        cargaison['lieuDepart'].toLowerCase().includes(searchQueriesmores.lieuDepart) &&
+        cargaison['lieuArrivee'].toLowerCase().includes(searchQueriesmores.lieuArrivee) &&
+        cargaison['dateDepart'].toLowerCase().includes(searchQueriesmores.dateDepart) &&
+        cargaison['dateArrivee'].toLowerCase().includes(searchQueriesmores.dateArrivee)
       );
     });
-
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const cargaisonsToDisplay = filteredCargaisons.slice(startIndex, endIndex);
-
-    cargaisonsToDisplay.forEach(cargaison => {
+  
+    filteredCargaisons.forEach(cargaison => {
       const row = document.createElement("tr");
       row.classList.add("mt-8");
-
+  
       const type = cargaison instanceof Maritime ? "Maritime" :
                    cargaison instanceof Aerienne ? "Aerienne" :
                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
-
+  
       row.innerHTML = `
-        <td class="px-6 py-4">${cargaison['_num']}</td>
+        <td class="px-6 py-4">
+          <input type="radio" name="select-cargaison" class="select-cargaison" data-num="${cargaison['_num']}">
+        </td>
+        <td class="px-6 py-4">${cargaison['num']}</td>
         <td class="px-6 py-4">${type}</td>
-        <td class="px-6 py-4">${cargaison['_dateDepart']}</td>
-        <td class="px-6 py-4">${cargaison['_dateArrivee']}</td>
-        <td class="px-6 py-4">${cargaison['_lieuDepart']}</td>
-        <td class="px-6 py-4">${cargaison['_lieuArrivee']}</td>
+        <td class="px-6 py-4">${cargaison['dateDepart']}</td>
+        <td class="px-6 py-4">${cargaison['dateArrivee']}</td>
+        <td class="px-6 py-4">${cargaison['lieuDepart']}</td>
+        <td class="px-6 py-4">${cargaison['lieuArrivee']}</td>
       `;
       cargaisonTableBody.appendChild(row);
     });
+
+    const productForm = document.getElementById("product-form") as HTMLFormElement;
+    const productModal = document.getElementById("my_modal_4") as HTMLDialogElement;
+  
+    // Ajouter des écouteurs pour les sélecteurs radio
+    document.querySelectorAll(".select-cargaison").forEach(radio => {
+      radio.addEventListener("change", () => {
+          const selectedCargaisonNum = parseInt(radio.getAttribute("data-num") || "");
+          const selectedCargaison = cargaisons.find(c => c['_num'] === selectedCargaisonNum);
+
+          console.log(selectedCargaison);
+          
+          // Vérifier si une cargaison est sélectionnée
+          if (selectedCargaison) {
+            // Vérifier les conditions pour afficher le modal
+            //if (selectedCargaison._etat === 'ouvert' && selectedCargaison._etape === 'en attente' && !selectedCargaison.estPleine()) {
+            // Afficher le modal d'ajout de produit
+            productModal.showModal();
+            
+              // Ajouter un écouteur d'événements au formulaire de produit pour gérer l'ajout de produit
+              productForm.addEventListener("submit", (event) => {
+                  event.preventDefault();
+
+                  // Récupérer les données du formulaire de produit
+                  const formData = new FormData(productForm);
+                  
+                  const clientName = formData.get("client-name") as string;
+                  const clientPrenom = formData.get("client-prenom") as string;
+                  const clientAdresse = formData.get("client-adresse") as string;
+                  const clientTel = formData.get("client-telephone") as string;
+                  const clientEmail = formData.get("client-email") as string;
+                  const recipientName = formData.get("recipient-name") as string;
+                  const recipientPrenom = formData.get("recipient-prenom") as string;
+                  const recipientAdresse = formData.get("recipient-adresse") as string;
+                  const recipientTel = formData.get("recipient-telephone") as string;
+                  const recipientEmail = formData.get("recipient-email") as string;
+                  const productName = formData.get("product-name") as string;
+                  const productWeight = parseFloat(formData.get("product-weight") as string);
+                  const productType = formData.get("product-type") as string;
+                  const degreDeToxicite = formData.get("degre-de-toxicite") ? parseInt(formData.get("degre-de-toxicite") as string) : 0;
+
+                  // Créer un nouveau produit en fonction du type de la cargaison sélectionnée
+                  const statut: statut = 'en attente';
+                  const client: client = {name: clientName, username: clientPrenom, address: clientAdresse, phone: clientTel, email: clientEmail};
+                  const destinataire: destinataire = {name: recipientName, username: recipientPrenom, address: recipientAdresse, phone: recipientTel, email: recipientEmail};
+                  // Créer un nouveau produit
+                  let newProduct: Produit;
+                  switch (productType) {
+                      case 'Alimentaire':
+                          newProduct = new Alimentaire(productName, productWeight, statut, client, destinataire);
+                          break;
+                      case 'Chimique':
+                          newProduct = new Chimique(productName, productWeight, statut, client, destinataire, degreDeToxicite); // Ajouter le degré de toxicité si nécessaire
+                          break;
+                      case 'Incassable':
+                          newProduct = new Incassable(productName, productWeight, statut, client, destinataire);
+                          break;
+                      case 'Fragile':
+                          newProduct = new Fragile(productName, productWeight, statut, client, destinataire);
+                          break;
+                      default:
+                          console.error("Type de produit inconnu:", productType);
+                          return;
+                  }
+
+                  // Ajouter le produit à la cargaison sélectionnée
+                  //selectedCargaison.ajouterProduit(newProduct);
+                  //alert ("Produit ajouté à la cargaison");
+                  let newCargos : Cargaison[] = [];
+                  console.log(selectedCargaison);
+                  Cargos.forEach(cargaison => {
+                    if(cargaison._num === selectedCargaison._num) {
+                      cargaison.ajouterProduit(newProduct);
+                    }
+                    newCargos.push(cargaison);
+                  })
+                  console.log(newCargos);
+
+                  fetch("../php/data.php", {
+                    method: "POST",
+                    body: JSON.stringify(newCargos),
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      data.cargo = newCargos;
+                      save(data);
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+
+                  // Réinitialiser le formulaire et fermer le modal
+                  productForm.reset();
+                  productModal.close();
+              });
+            // } else {
+            //   // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+            //   console.log("Impossible d'ajouter un produit à cette cargaison pour le moment.");
+            //   alert ("Impossible d'ajouter un produit à cette cargaison pour le moment.");
+            // }
+          } else {
+          console.error(`Aucune cargaison sélectionnée`);
+          }
+ 
+        });
+    });
+  
+  
+
 
     // Afficher les boutons de pagination
     const paginationContainer = document.getElementById("pagination") as HTMLDivElement;
@@ -355,6 +485,296 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
+
+  // Toggle toxicity level field based on product type
+  document.getElementById("product-type")?.addEventListener("change", () => {
+    const productType = (document.getElementById("product-type") as HTMLSelectElement).value;
+    const toxicityLevel = document.getElementById("degre-de-toxicite") as HTMLDivElement;
+    if (productType === "Chimique") {
+      toxicityLevel.classList.remove("hidden");
+    } else {
+      toxicityLevel.classList.add("hidden");
+    }
+  });
+
+
+
+
+
+
+  interface Icargo {
+    type: string;
+    distance: number;
+    num: string;
+    lieuDepart: string;
+    lieuArrivee: string;
+    dateDepart: string;
+    dateArrivee: string;
+    poidsMax?: number;
+    nbProduitsMax?: number;
+    etat: string;
+    etape: string;
+    produits: (Alimentaire[]|Incassable[]|Chimique[]|Fragile[]);
+  }
+  const GetData = async (): Promise<Icargo[]> => {
+    const response = await fetch("../php/data.php");
+    const data = await response.json();
+    return data.cargo;
+  }
+  
+    const dt = await GetData();
+    console.log(dt);
+    var Cargos:Cargaison[] = [];
+  dt.forEach((cargo: any) => {
+   switch(cargo.type) {
+     case "Maritime":
+       let m = new Maritime(
+         cargo.distance,
+         cargo.num,
+         cargo.poidsMax,
+         cargo.nbProduitsMax,
+         cargo.lieuDepart,
+         cargo.lieuArrivee,
+         cargo.dateDepart,
+         cargo.dateArrivee,
+         cargo.etat,
+         cargo.etape
+       )
+       m._num = parseInt(cargo.num);
+       m.produits = cargo.produits.map((product: any) => {
+         switch(product.type) {
+           case "Alimentaire":
+            const  f = new Alimentaire(
+               product._libelle,
+               product._poids,
+               product._statut,
+               product._client,
+               product._destinataire,
+
+             )
+             f.statut = product._statut as statut
+             return f;
+             break;
+           case "Incassable":
+             const u = new Incassable(
+              product._libelle,
+              product._poids,
+              product._statut,
+              product._client,
+              product._destinataire,
+             )
+             u.statut = product._statut as statut
+             return u
+             break;
+           case "Chimique":
+             const c = new Chimique(
+               product._libelle,
+               product._poids,
+               product._statut,
+               product._client,
+               product._destinataire,
+               product._toxicity,
+             )
+             c.statut = product._statut as statut
+             return c
+             break;
+          case "Fragile":
+            const s = new Fragile(
+              product._libelle,
+              product._poids,
+              product._statut,
+              product._client,
+              product._destinataire,
+            )
+            s.statut = product._statut as statut
+            return s
+            break;
+          
+  
+         }
+       })
+       
+       Cargos.push(m);
+       break;
+     case "Routiere":
+       let t = new Routiere(
+          cargo.distance,
+          cargo.num,
+          cargo.poidsMax,
+          cargo.nbProduitsMax,
+          cargo.lieuDepart,
+          cargo.lieuArrivee,
+          cargo.dateDepart,
+          cargo.dateArrivee,
+          cargo.etat,
+          cargo.etape
+       )
+       t._num = parseInt(cargo.num);
+       t.produits = cargo.produits.map((product: any) => {
+        switch(product.type) {
+          case "Alimentaire":
+           const  f = new Alimentaire(
+            product._libelle,
+            product._poids,
+            product._statut,
+            product._client,
+            product._destinataire,
+            )
+            f.statut = product._statut as statut
+            return f
+            break;
+          case "Incassable":
+            const u = new Incassable(
+              product._libelle,
+              product._poids,
+              product._statut,
+              product._client,
+              product._destinataire,
+            )
+            u.statut = product._statut as statut
+            return u
+            break;
+            case "Chimique":
+              const c = new Chimique(
+                product._libelle,
+                product._poids,
+                product._statut,
+                product._client,
+                product._destinataire,
+                product._toxicity,
+              )
+              c.statut = product._statut as statut
+              return c
+              break;
+              case "Fragile":
+                const s = new Fragile(
+                  product._libelle,
+                  product._poids,
+                  product._statut,
+                  product._client,
+                  product._destinataire,
+                )
+                s.statut = product._statut as statut
+                return s
+                break;
+         
+        }
+      })
+    
+       Cargos.push(t);
+       break;
+      case "Aerienne":
+        let a = new Aerienne(
+          cargo.distance,
+          cargo.num,
+          cargo.poidsMax,
+          cargo.nbProduitsMax,
+          cargo.lieuDepart,
+          cargo.lieuArrivee,
+          cargo.dateDepart,
+          cargo.dateArrivee,
+          cargo.etat,
+          cargo.etape
+        )
+        a._num = parseInt(cargo.num);
+        a.produits = cargo.produits.map((product: any) => {
+          switch(product.type) {
+            case "Alimentaire":
+            const  f = new Alimentaire(
+               product._libelle,
+               product._poids,
+               product._statut,
+               product._client,
+               product._destinataire,
+
+             )
+             f.statut = product._statut as statut
+             return f;
+             break;
+           case "Incassable":
+             const u = new Incassable(
+              product._libelle,
+              product._poids,
+              product._statut,
+              product._client,
+              product._destinataire,
+             )
+             u.statut = product._statut as statut
+             return u
+             break;
+           case "Chimique":
+             const c = new Chimique(
+               product._libelle,
+               product._poids,
+               product._statut,
+               product._client,
+               product._destinataire,
+               product._toxicity,
+             )
+             c.statut = product._statut as statut
+             return c
+             break;
+          case "Fragile":
+            const s = new Fragile(
+              product._libelle,
+              product._poids,
+              product._statut,
+              product._client,
+              product._destinataire,
+            )
+            s.statut = product._statut as statut
+            return s
+            break;
+           
+   
+          }
+  
+        })
+        
+  
+        Cargos.push(a);
+        break;
+  
+   }
+  })
+  console.log(Cargos);
+
+
+  const save = (data: Cargaison[]) => {
+  
+    fetch("../php/data.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Traitez les données renvoyées par PHP
+      console.log(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+  const misajJson = (c:Cargaison[]) :void => {
+
+    fetch("../php/data.php", {
+       method: "POST",
+       body: JSON.stringify(c),
+     })
+       .then((response) => response.json())
+       .then((data) => {
+         data.cargo = c;
+         save(data);
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+     
+   }
 });
 
 
