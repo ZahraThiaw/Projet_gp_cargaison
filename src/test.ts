@@ -207,38 +207,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log(nouvelleCargaison);
 
-    // Envoyer les cargaisons mises à jour au serveur
-    // fetch("../php/data.php", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({ cargo: cargaisons.map(c => ({
-    //     type: c instanceof Maritime ? 'Maritime' : c instanceof Aerienne ? 'Aerienne' : c instanceof Routiere ? 'Routiere' : 'inconnu',
-    //     distance: c['distance'],
-    //     num: c['num'],
-    //     poidsMax: c['poidsMax'],
-    //     nbProduitsMax: c['nbProduitsMax'],
-    //     lieuDepart: c['lieuDepart'],
-    //     lieuArrivee: c['lieuArrivee'],
-    //     dateDepart: c['dateDepart'],
-    //     dateArrivee: c['dateArrivee'],
-    //     etat: c['etat'],
-    //     etape: c['etape'],
-    //     produits: c['produits'] // Ajouter les produits
-    //   })) })
-    // })
-    // .then(response => response.text())
-    // .then(data => {
-    //   console.log(data);
-    //   afficherCargaisons();
-    //   form.reset();
-    //   dialog.close(); // Fermer le dialogue après l'envoi réussi
-    // })
-    // .catch(error => {
-    //   console.error("Erreur lors de l'envoi des cargaisons :", error);
-    // });
-
 
     fetch("../php/data.php", {
       method: "POST",
@@ -333,13 +301,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     filteredCargaisons.forEach(cargaison => {
       const row = document.createElement("tr");
       row.classList.add("mt-8");
+      row.classList.add("border");
+      row.classList.add("border-gray-500");
   
       const type = cargaison instanceof Maritime ? "Maritime" :
                    cargaison instanceof Aerienne ? "Aerienne" :
                    cargaison instanceof Routiere ? "Routiere" : "Inconnu";
   
       row.innerHTML = `
-        <td class="px-6 py-4">
+        <td class="px-6 py-4 ">
           <input type="radio" name="select-cargaison" class="select-cargaison" data-num="${cargaison['_num']}">
         </td>
         <td class="px-6 py-4">${cargaison['num']}</td>
@@ -347,91 +317,444 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td class="px-6 py-4">${cargaison['dateDepart']}</td>
         <td class="px-6 py-4">${cargaison['dateArrivee']}</td>
         <td class="px-6 py-4">${cargaison['lieuDepart']}</td>
-        <td class="px-6 py-4">${cargaison['lieuArrivee']}</td>
+        <td class="px-6 py-4">${cargaison['lieuArrivee']}
+        <button data-num="${cargaison['_num']}" class="details-btn bg-blue-500 text-white absolute right-2 bottom-2  px-2 py-1 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <i class="fas fa-info-circle"></i>
+        </button>
+        </td>
       `;
       cargaisonTableBody.appendChild(row);
+
     });
+    
+    // const productForm = document.getElementById("product-form") as HTMLFormElement;
+    // const productModal = document.getElementById("my_modal_4") as HTMLDialogElement;
+  
+    // // Ajouter des écouteurs pour les sélecteurs radio
+    // document.querySelectorAll(".select-cargaison").forEach(radio => {
+    //   radio.addEventListener("change", () => {
+    //       const selectedCargaisonNum = parseInt(radio.getAttribute("data-num") || "");
+    //       const selectedCargaison = cargaisons.find(c => c['_num'] === selectedCargaisonNum);
+
+    //       console.log(selectedCargaison);
+          
+    //       // Vérifier si une cargaison est sélectionnée
+    //       if (selectedCargaison) {
+    //         // Vérifier les conditions pour afficher le modal
+    //         if (selectedCargaison._etat === 'ouvert' && selectedCargaison._etape === 'en attente' && !selectedCargaison.estPleine()) {
+    //           // Afficher le modal d'ajout de produit
+    //           productModal.showModal();
+            
+    //           // Ajouter un écouteur d'événements au formulaire de produit pour gérer l'ajout de produit
+    //           productForm.addEventListener("submit", (event) => {
+    //               event.preventDefault();
+
+    //               // Récupérer les données du formulaire de produit
+    //               const formData = new FormData(productForm);
+                  
+    //               const clientName = formData.get("client-name") as string;
+    //               const clientPrenom = formData.get("client-prenom") as string;
+    //               const clientAdresse = formData.get("client-adresse") as string;
+    //               const clientTel = formData.get("client-telephone") as string;
+    //               const clientEmail = formData.get("client-email") as string;
+    //               const recipientName = formData.get("recipient-name") as string;
+    //               const recipientPrenom = formData.get("recipient-prenom") as string;
+    //               const recipientAdresse = formData.get("recipient-adresse") as string;
+    //               const recipientTel = formData.get("recipient-telephone") as string;
+    //               const recipientEmail = formData.get("recipient-email") as string;
+    //               const productName = formData.get("product-name") as string;
+    //               const productWeight = parseFloat(formData.get("product-weight") as string);
+    //               const productType = formData.get("product-type") as string;
+    //               const degreDeToxicite = formData.get("degre-de-toxicite") ? parseInt(formData.get("degre-de-toxicite") as string) : 0;
+
+    //               // Créer un nouveau produit en fonction du type de la cargaison sélectionnée
+    //               const statut: statut = 'en attente';
+    //               const client: client = {name: clientName, username: clientPrenom, address: clientAdresse, phone: clientTel, email: clientEmail};
+    //               const destinataire: destinataire = {name: recipientName, username: recipientPrenom, address: recipientAdresse, phone: recipientTel, email: recipientEmail};
+    //               // Créer un nouveau produit
+    //               let newProduct: Produit;
+    //               switch (productType) {
+    //                   case 'Alimentaire':
+    //                       newProduct = new Alimentaire(productName, productWeight, statut, client, destinataire);
+    //                       break;
+    //                   case 'Chimique':
+    //                       newProduct = new Chimique(productName, productWeight, statut, client, destinataire, degreDeToxicite); // Ajouter le degré de toxicité si nécessaire
+    //                       break;
+    //                   case 'Incassable':
+    //                       newProduct = new Incassable(productName, productWeight, statut, client, destinataire);
+    //                       break;
+    //                   case 'Fragile':
+    //                       newProduct = new Fragile(productName, productWeight, statut, client, destinataire);
+    //                       break;
+    //                   default:
+    //                       console.error("Type de produit inconnu:", productType);
+    //                       return;
+    //               }
+
+    //               // Ajouter le produit à la cargaison sélectionnée
+    //               //selectedCargaison.ajouterProduit(newProduct);
+    //               //alert ("Produit ajouté à la cargaison");
+    //               let newCargos : Cargaison[] = [];
+    //               console.log(selectedCargaison);
+    //               Cargos.forEach(cargaison => {
+    //                 if(cargaison._num === selectedCargaison._num) {
+    //                   cargaison.ajouterProduit(newProduct);
+    //                 }
+    //                 newCargos.push(cargaison);
+    //               })
+    //               console.log(newCargos);
+
+    //               fetch("../php/data.php", {
+    //                 method: "POST",
+    //                 body: JSON.stringify(newCargos),
+    //               })
+    //                 .then((response) => response.json())
+    //                 .then((data) => {
+    //                   data.cargo = newCargos;
+    //                   save(data);
+    //                 })
+    //                 .catch((error) => {
+    //                   console.error(error);
+    //                 });
+
+    //               // Réinitialiser le formulaire et fermer le modal
+    //               productForm.reset();
+    //               productModal.close();
+    //           });
+    //         } else if (selectedCargaison._etat === 'fermé') {
+    //           // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+    //           console.log("La cargaison est fermée, impossible d'ajouter un produit à cette cargaison.");
+    //           alert ("La cargaison est fermée, impossible d'ajouter un produit à cette cargaison.");
+    //         } else if (selectedCargaison._etape !== 'en attente') {
+    //           // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+    //           console.log("La cargaison est en attente, impossible d'ajouter un produit à cette cargaison.");
+    //           alert ("La cargaison n'est pas en attente, impossible d'ajouter un produit à cette cargaison.");
+    //         } else if(selectedCargaison.estPleine()) {
+    //           // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+    //           console.log("La cargaison est pleine, impossible d'ajouter un produit à cette cargaison.");
+    //           alert ("La cargaison est pleine, impossible d'ajouter un produit à cette cargaison.");
+    //         }
+    //       } else {
+    //       console.error(`Aucune cargaison sélectionnée`);
+    //       }
+ 
+    //     });
+
+        
+    // });
+
+
+
 
     const productForm = document.getElementById("product-form") as HTMLFormElement;
     const productModal = document.getElementById("my_modal_4") as HTMLDialogElement;
-  
+
+    // Fonction pour valider les emails
+    function isValidEmail(email: string): boolean {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      return emailPattern.test(email);
+    }
+
+    // Fonction pour afficher les messages d'erreur
+    function showErrorMessage(input: HTMLInputElement, message: string) {
+      const errorMessage = input.nextElementSibling as HTMLElement;
+      errorMessage.textContent = message;
+      errorMessage.style.visibility = 'visible';
+    }
+
+    // Fonction pour masquer les messages d'erreur
+    function hideErrorMessage(input: HTMLInputElement) {
+      const errorMessage = input.nextElementSibling as HTMLElement;
+      errorMessage.style.visibility = 'hidden';
+    }
+
+    // Fonction pour valider le formulaire
+    function validateForm(): boolean {
+      let isValid = true;
+      const inputs = productForm.querySelectorAll("input, select");
+
+      inputs.forEach(input => {
+        const inputElement = input as HTMLInputElement;
+
+        if (inputElement.value.trim() === "") {
+          showErrorMessage(inputElement, "Ce champ est requis");
+          isValid = false;
+        } else {
+          hideErrorMessage(inputElement);
+
+          if ((inputElement.id === "client-email" && !isValidEmail(inputElement.value)) ||(inputElement.id === "recipient-email" && !isValidEmail(inputElement.value))) {
+            showErrorMessage(inputElement, "Email invalide");
+            isValid = false;
+          }
+        }
+      });
+
+      return isValid;
+    }
+
     // Ajouter des écouteurs pour les sélecteurs radio
     document.querySelectorAll(".select-cargaison").forEach(radio => {
       radio.addEventListener("change", () => {
-          const selectedCargaisonNum = parseInt(radio.getAttribute("data-num") || "");
-          const selectedCargaison = cargaisons.find(c => c['_num'] === selectedCargaisonNum);
+        const selectedCargaisonNum = parseInt(radio.getAttribute("data-num") || "");
+        const selectedCargaison = cargaisons.find(c => c['_num'] === selectedCargaisonNum);
 
-          console.log(selectedCargaison);
-          
-          // Vérifier si une cargaison est sélectionnée
-          if (selectedCargaison) {
-            // Vérifier les conditions pour afficher le modal
-            //if (selectedCargaison._etat === 'ouvert' && selectedCargaison._etape === 'en attente' && !selectedCargaison.estPleine()) {
+        console.log(selectedCargaison);
+
+        // Vérifier si une cargaison est sélectionnée
+        if (selectedCargaison) {
+          // Vérifier les conditions pour afficher le modal
+          if (selectedCargaison._etat === 'ouvert' && selectedCargaison._etape === 'en attente' && !selectedCargaison.estPleine()) {
             // Afficher le modal d'ajout de produit
             productModal.showModal();
-            
-              // Ajouter un écouteur d'événements au formulaire de produit pour gérer l'ajout de produit
-              productForm.addEventListener("submit", (event) => {
-                  event.preventDefault();
 
-                  // Récupérer les données du formulaire de produit
-                  const formData = new FormData(productForm);
+            // Ajouter un écouteur d'événements au formulaire de produit pour gérer l'ajout de produit
+            productForm.addEventListener("submit", (event) => {
+              event.preventDefault();
+
+              // Valider le formulaire
+              if (!validateForm()) {
+                return;
+              }
+
+              // Récupérer les données du formulaire de produit
+              const formData = new FormData(productForm);
+
+              const clientName = formData.get("client-name") as string;
+              const clientPrenom = formData.get("client-prenom") as string;
+              const clientAdresse = formData.get("client-adresse") as string;
+              const clientTel = formData.get("client-telephone") as string;
+              const clientEmail = formData.get("client-email") as string;
+              const recipientName = formData.get("recipient-name") as string;
+              const recipientPrenom = formData.get("recipient-prenom") as string;
+              const recipientAdresse = formData.get("recipient-adresse") as string;
+              const recipientTel = formData.get("recipient-telephone") as string;
+              const recipientEmail = formData.get("recipient-email") as string;
+              const productName = formData.get("product-name") as string;
+              const productWeight = parseFloat(formData.get("product-weight") as string);
+              const productType = formData.get("product-type") as string;
+              const degreDeToxicite = formData.get("degre-de-toxicite") ? parseInt(formData.get("degre-de-toxicite") as string) : 0;
+
+              // Créer un nouveau produit en fonction du type de la cargaison sélectionnée
+              const statut: statut = 'en attente';
+              const client: client = {name: clientName, username: clientPrenom, address: clientAdresse, phone: clientTel, email: clientEmail};
+              const destinataire: destinataire = {name: recipientName, username: recipientPrenom, address: recipientAdresse, phone: recipientTel, email: recipientEmail};
+              
+              // Créer un nouveau produit
+              let newProduct: Produit;
+              switch (productType) {
+                case 'Alimentaire':
+                  newProduct = new Alimentaire(productName, productWeight, statut, client, destinataire);
+                  break;
+                case 'Chimique':
+                  newProduct = new Chimique(productName, productWeight, statut, client, destinataire, degreDeToxicite); // Ajouter le degré de toxicité si nécessaire
+                  break;
+                case 'Incassable':
+                  newProduct = new Incassable(productName, productWeight, statut, client, destinataire);
+                  break;
+                case 'Fragile':
+                  newProduct = new Fragile(productName, productWeight, statut, client, destinataire);
+                  break;
+                default:
+                  console.error("Type de produit inconnu:", productType);
+                  return;
+              }
+
+              // Ajouter le produit à la cargaison sélectionnée
+              let newCargos: Cargaison[] = [];
+              console.log(selectedCargaison);
+              Cargos.forEach(cargaison => {
+                if (cargaison._num === selectedCargaison._num) {
+                  cargaison.ajouterProduit(newProduct);
+                }
+                newCargos.push(cargaison);
+              })
+              console.log(newCargos);
+
+              fetch("../php/data.php", {
+                method: "POST",
+                body: JSON.stringify(newCargos),
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                data.cargo = newCargos;
+                save(data);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+
+              // Réinitialiser le formulaire et fermer le modal
+              productForm.reset();
+              productModal.close();
+            });
+          } else if (selectedCargaison._etat === 'fermé') {
+            // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+            console.log("La cargaison est fermée, impossible d'ajouter un produit à cette cargaison.");
+            alert("La cargaison est fermée, impossible d'ajouter un produit à cette cargaison.");
+          } else if (selectedCargaison._etape !== 'en attente') {
+            // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+            console.log("La cargaison est en attente, impossible d'ajouter un produit à cette cargaison.");
+            alert("La cargaison n'est pas en attente, impossible d'ajouter un produit à cette cargaison.");
+          } else if (selectedCargaison.estPleine()) {
+            // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
+            console.log("La cargaison est pleine, impossible d'ajouter un produit à cette cargaison.");
+            alert("La cargaison est pleine, impossible d'ajouter un produit à cette cargaison.");
+          }
+        } else {
+          console.error(`Aucune cargaison sélectionnée`);
+        }
+      });
+    });
+
+  
+
+    // // Au clic sur le bouton "Détails", afficher le modal de détail de la cargaison
+    document.querySelectorAll(".details-btn").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const numdetail = parseInt(button.getAttribute("data-num") || "");
+        const detailCargaison = Cargos.find(c => c['num'] === numdetail);
+        console.log(detailCargaison);
+
+        // Afficher le modal de détail de la cargaison
+        const detailModal = document.createElement("div");
+        // detailModal.classList.add("fixed", "top-0", "left-0", "w-full", "h-full", "flex", "items-center", "justify-center", "bg-gray-900", "bg-opacity-50");
+        detailModal.innerHTML = `
+          <dialog id="my_modal_2" class="modal">
+              <div class="modal-box w-11/12 max-w-5xl">
+                <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
+                  <h1 class="text-2xl py-3 font-bold bg-gradient-to-tl from-blue-400 to-blue-700 text-white mb-4 text-center rounded">Détails de la Cargaison numéro ${detailCargaison?._num}</h1>
+                  <div class="mb-10 space-y-2">
+                      <div class="mb-10 grid grid-cols-4">
+                          <p><i class="fa-solid fa-boxes-packing"></i> <strong>Type:</strong> ${detailCargaison?._type}</p>
+                          <p><i class="fas fa-road"></i> <strong>Distance:</strong> ${detailCargaison?._distance} km</p>
+                          <p><i class="fas fa-box"></i> <strong>Nombre de Produits:</strong> ${detailCargaison?._produits.length}</p>
+                          <p><i class="fas fa-box"></i> <strong>Nombre de Produits Max:</strong> ${detailCargaison?.getNombreProduitsMax()}</p>
+                      </div>
+                      <div class="mb-10 mt-10 grid grid-cols-4">
+                          <p><i class="fas fa-box"></i> <strong>Nombre de Produits Restant:</strong> ${detailCargaison?.getNombreProduitsRestant()}</p>
+                          <p><i class="fas fa-weight-hanging"></i> <strong>Poids Max:</strong> ${detailCargaison?.getPoidsMax()} kg</p>
+                          <p><i class="fas fa-weight-hanging"></i> <strong>Poids Restant:</strong> ${detailCargaison?.getPoidsRestant()} kg</p>
+                          <p><i class="fas fa-map-marker-alt"></i> <strong>Lieu de Départ:</strong> ${detailCargaison?.getLieuDepart()}</p>
+                      </div>
+                      <div class=" mb-10 mt-10 grid grid-cols-4">
+                          <p><i class="fas fa-map-marker-alt"></i> <strong>Lieu d'Arrivée:</strong> ${detailCargaison?.getLieuArrivee()}</p>
+                          <p><i class="fas fa-calendar-alt"></i> <strong>Date de Départ:</strong> ${detailCargaison?.getDateDepart()}</p>
+                          <p><i class="fas fa-calendar-alt"></i> <strong>Date d'Arrivée:</strong> ${detailCargaison?.getDateArrivee()}</p>
+                      </div>
+                      <div class=" mb-10 mt-10 grid grid-cols-4">
+                            <p><i class="fas fa-brands fa-osi"></i> <strong>Etat:</strong> ${detailCargaison?._etat}</p>
+                            <p><i class="fas fa-brands fa-usps"></i> <strong>Etape:</strong> ${detailCargaison?._etape}</p>
+                      </div>
+                      <div class=" mb-10 flex justify-between items-center mt-10">
+                          <div>
+                              <label for="etat" class="block text-sm font-medium text-gray-700">État</label>
+                              <select id="etat" name="etat" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                  <option value="ouvert" ${detailCargaison?._etat === "ouvert" ? "selected" : ""}>Ouvert</option>
+                                  <option value="fermé" ${detailCargaison?._etat === "fermé" ? "selected" : ""}>Fermé</option>
+                              </select>
+                          </div>
+                          <div>
+                              <label for="etape" class="block text-sm font-medium text-gray-700">Étape</label>
+                              <select id="etape" name="etape" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                  <option value="en attente" ${detailCargaison?._etape === "en attente" ? "selected" : ""}>En attente</option>
+                                  <option value="en cours" ${detailCargaison?._etape === "en cours" ? "selected" : ""}>En cours</option>
+                                  <option value="terminé" ${detailCargaison?._etape === "arrivé" ? "selected" : ""}>Arrivée</option>
+                                  <option value="terminé" ${detailCargaison?._etape === "perdue" ? "selected" : ""}>Perdue</option>
+                              </select>
+                          </div>
+                          <div >
+                              <button class="update_btn mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Mettre à Jour</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <form method="dialog" class="modal-backdrop">
+                  <button>close</button>
+              </form>
+          </dialog>
+        `;
+
+        document.body.appendChild(detailModal);
+        const detailModalContent = detailModal.querySelector("dialog") as HTMLDialogElement;
+      
+        if (detailCargaison) {
+          detailModalContent.showModal();
+
+          const updateBtn = detailModalContent.querySelector(".update_btn") as HTMLButtonElement;
+          updateBtn.addEventListener("click", async () => {
+              const etat = (detailModalContent.querySelector("#etat") as HTMLSelectElement).value as "ouvert" | "fermé";
+              const etape = (detailModalContent.querySelector("#etape") as HTMLSelectElement).value as "en attente" | "en cours" | "arrivé" | "perdue";
+
+              let isValid = true;
+              let errorMessage = "";
+
+              // Conditions de modifications
+              if (etat === "fermé" && detailCargaison._etat === "ouvert" && etape === "en attente" && detailCargaison._etape === "en attente") {
+                  isValid = true;
+                  errorMessage = "La cargaison est maintenant fermée et en attente.";
+              }
+                else if (etat === "fermé" && detailCargaison._etat === "ouvert" && etape === "en cours" && detailCargaison._etape === "en attente") {
+                  isValid = true;
+                  errorMessage = "La cargaison est maintenant fermée et en cours.";
+              }
+                else if (etat === "fermé" && detailCargaison._etat === "ouvert" && etape === "arrivé" && detailCargaison._etape === "en attente") {
+                isValid = false;
+                errorMessage = "La cargaison ne peut pas quitter l'etape en attente pour aller à arrivé.";
+              }
+                else if (etat === "fermé" && detailCargaison._etat === "ouvert" && etape === "en cours" && detailCargaison._etape === "en attente") {
+                  isValid = true;
+                  errorMessage = "La cargaison est maintenant fermée et en cours.";
+              } else if (etat === "ouvert" && detailCargaison._etat === "fermé" && etape === "en attente" && detailCargaison._etape === "en attente") {
+                  isValid = true;
+                  errorMessage = "La cargaison est maintenant ouverte et en attente.";
+              } else if (etat === "ouvert" && detailCargaison._etat === "fermé" && etape === "en cours" && detailCargaison._etape === "en attente") {
+                  isValid = false;
+                  errorMessage = "Une cargaison à l'etat ouvert ne peut pas aller à l'etape en cours.";
+              } else if (etat === "fermé" && detailCargaison._etat === "fermé" && etape === "en cours" && detailCargaison._etape === "en attente") {
+                  isValid = true;
+                  errorMessage = "La cargaison est maintenant fermée et en cours.";
+              } else if (etat === "fermé" && detailCargaison._etat === "fermé" && etape === "arrivé" && detailCargaison._etape === "en attente") {
+                  isValid = false;
+                  errorMessage = "La cargaison ne peut pas quitter l'etape en attente pour aller à arrivé.";
+              } else if (etat === "fermé" && detailCargaison._etat === "fermé" && etape === "arrivé" && detailCargaison._etape === "en cours") {
+                  isValid = true;
+                  errorMessage = "La cargaison est maintenant fermée et arrive à l'arrivée.";
+              } else if (etat === "ouvert" && detailCargaison._etat === "fermé" && (etape === "en cours" || etape === "arrivé" || etape === "perdue") && detailCargaison._etape === "en cours") {
+                  isValid = false;
+                  errorMessage ="Une cargaison à l'etape en cours ne peut pas etre ouverte.";
+              }else if (etat === "fermé" && detailCargaison._etat === "fermé" && etape === "perdue" && detailCargaison._etape === "en cours") {
+                  isValid = true;
+                  errorMessage = "La cargaison est perdue.";
+              } else if (etat === "fermé" && detailCargaison._etat === "fermé" && etape === "perdue" && detailCargaison._etape === "arrivé") {
+                  isValid = false;
+                  errorMessage = "La cargaison arrivée ne peut pas etre perdue.";
+              }
+              else {
+                  isValid = false;
+                  errorMessage = "Transition d'état ou d'étape invalide.";
+              }
+
+              if (isValid) {
+                  try {
                   
-                  const clientName = formData.get("client-name") as string;
-                  const clientPrenom = formData.get("client-prenom") as string;
-                  const clientAdresse = formData.get("client-adresse") as string;
-                  const clientTel = formData.get("client-telephone") as string;
-                  const clientEmail = formData.get("client-email") as string;
-                  const recipientName = formData.get("recipient-name") as string;
-                  const recipientPrenom = formData.get("recipient-prenom") as string;
-                  const recipientAdresse = formData.get("recipient-adresse") as string;
-                  const recipientTel = formData.get("recipient-telephone") as string;
-                  const recipientEmail = formData.get("recipient-email") as string;
-                  const productName = formData.get("product-name") as string;
-                  const productWeight = parseFloat(formData.get("product-weight") as string);
-                  const productType = formData.get("product-type") as string;
-                  const degreDeToxicite = formData.get("degre-de-toxicite") ? parseInt(formData.get("degre-de-toxicite") as string) : 0;
-
-                  // Créer un nouveau produit en fonction du type de la cargaison sélectionnée
-                  const statut: statut = 'en attente';
-                  const client: client = {name: clientName, username: clientPrenom, address: clientAdresse, phone: clientTel, email: clientEmail};
-                  const destinataire: destinataire = {name: recipientName, username: recipientPrenom, address: recipientAdresse, phone: recipientTel, email: recipientEmail};
-                  // Créer un nouveau produit
-                  let newProduct: Produit;
-                  switch (productType) {
-                      case 'Alimentaire':
-                          newProduct = new Alimentaire(productName, productWeight, statut, client, destinataire);
-                          break;
-                      case 'Chimique':
-                          newProduct = new Chimique(productName, productWeight, statut, client, destinataire, degreDeToxicite); // Ajouter le degré de toxicité si nécessaire
-                          break;
-                      case 'Incassable':
-                          newProduct = new Incassable(productName, productWeight, statut, client, destinataire);
-                          break;
-                      case 'Fragile':
-                          newProduct = new Fragile(productName, productWeight, statut, client, destinataire);
-                          break;
-                      default:
-                          console.error("Type de produit inconnu:", productType);
-                          return;
-                  }
-
-                  // Ajouter le produit à la cargaison sélectionnée
-                  //selectedCargaison.ajouterProduit(newProduct);
-                  //alert ("Produit ajouté à la cargaison");
                   let newCargos : Cargaison[] = [];
-                  console.log(selectedCargaison);
+                  console.log(detailCargaison);
                   Cargos.forEach(cargaison => {
-                    if(cargaison._num === selectedCargaison._num) {
-                      cargaison.ajouterProduit(newProduct);
+                    if(cargaison._num === detailCargaison._num) {
+                      detailCargaison._etat = etat;
+                      detailCargaison._etape = etape;
                     }
                     newCargos.push(cargaison);
                   })
                   console.log(newCargos);
 
-                  fetch("../php/data.php", {
+                  const response = await fetch("../php/data.php", {
                     method: "POST",
-                    body: JSON.stringify(newCargos),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newCargos)
                   })
                     .then((response) => response.json())
                     .then((data) => {
@@ -441,23 +764,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .catch((error) => {
                       console.error(error);
                     });
+              }
+              catch (error) {
+                    console.error('Erreur:', error);
+                    alert('Erreur lors de la mise à jour');
+                }
+              }
+               else {
+                  alert(errorMessage);
+              }
+              detailModalContent.close();
+            
+          });
 
-                  // Réinitialiser le formulaire et fermer le modal
-                  productForm.reset();
-                  productModal.close();
-              });
-            // } else {
-            //   // Si les conditions ne sont pas remplies, afficher un message ou effectuer une action appropriée
-            //   console.log("Impossible d'ajouter un produit à cette cargaison pour le moment.");
-            //   alert ("Impossible d'ajouter un produit à cette cargaison pour le moment.");
-            // }
-          } else {
-          console.error(`Aucune cargaison sélectionnée`);
-          }
- 
-        });
+        }
+
+      });
     });
-  
   
 
 
@@ -775,6 +1098,126 @@ document.addEventListener("DOMContentLoaded", async () => {
        });
      
    }
+
+
+  const liste_produits = document.getElementById("liste-produits") as HTMLDivElement;
+  const searchInput = document.getElementById("search-par-numcargo") as HTMLInputElement;
+  function afficherCargaison(cargaison: Cargaison) {
+      liste_produits.innerHTML = "";
+
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+          <div class="max-w-full mx-auto bg-white shadow-md rounded-lg p-6">
+              <h1 class="text-2xl py-3 font-bold bg-gradient-to-tl from-blue-400 to-blue-700 text-white mb-4 text-center rounded">Cargaison numéro ${cargaison._num}</h1>
+              <div class="mb-4 space-y-2">
+                  <div class="mb-10 grid grid-cols-4">
+                      <p><i class="fas fa-barcode"></i> <strong>Numéro:</strong> ${cargaison._num}</p>
+                      <p><i class="fa-solid fa-boxes-packing"></i> <strong>Type:</strong> ${cargaison._type}</p>
+                      <p><i class="fas fa-brands fa-osi"></i> <strong>Etat:</strong> ${cargaison._etat}</p>
+                      <p><i class="fas fa-brands fa-usps"></i> <strong>Etape:</strong> ${cargaison._etape}</p>
+                  </div>
+                  <div class="mt-10 grid grid-cols-4">
+                      <p><i class="fas fa-map-marker-alt"></i> <strong>Lieu de Départ:</strong> ${cargaison.getLieuDepart()}</p>
+                      <p><i class="fas fa-map-marker-alt"></i> <strong>Lieu d'Arrivée:</strong> ${cargaison.getLieuArrivee()}</p>
+                      <p><i class="fas fa-calendar-alt"></i> <strong>Date de Départ:</strong> ${cargaison.getDateDepart()}</p>
+                      <p><i class="fas fa-calendar-alt"></i> <strong>Date d'Arrivée:</strong> ${cargaison.getDateArrivee()}</p>
+                  </div>
+              </div>
+          </div>
+      `;
+      
+      const rowproduits = document.createElement("div");
+      rowproduits.className = "row";
+      rowproduits.innerHTML = `
+          <h2 class="text-xl font-bold text-blue-700 mb-4">Produits</h2>
+          <div class="space-y-4 grid grid-cols-3 gap-4"></div>
+      `;
+
+      const produitsContainer = rowproduits.querySelector('.grid');
+      
+      cargaison._produits.forEach((produit: Produit, index: number) => {
+          const produitCard = document.createElement("div");
+          produitCard.className = "card shadow-xl bg-gray-50";
+          produitCard.innerHTML = `
+              <div class="card-body p-10">
+                  <div class="flex justify-between">
+                      <h2 class="card-title text-blue-700 text-center">Produit: ${produit.libelle}</h2>
+                      <button class="delete-btn" data-id="${produit._code}" data-index="${index}"><i class="fa-solid fa-trash" style="color: red;"></i></button>
+                  </div>
+                  <p><i class="fas fa-barcode"></i> <strong>Code:</strong> ${produit._code}</p>
+                  <p><i class="fas fa-clock"></i> <strong>Statut:</strong> ${produit.statut}</p>
+                  <p><i class="fas fa-user"></i> <strong>Nom Client:</strong> ${produit.client.name}</p>
+                  <p><i class="fas fa-user"></i> <strong>Nom Destinataire:</strong> ${produit.destinataire.name}</p>
+              </div>
+          `;
+
+          // Ajout de l'événement de suppression
+          produitCard.querySelector('.delete-btn')?.addEventListener('click', () => {
+            //alert ("Produit ajouté à la cargaison");
+            let newCargos : Cargaison[] = [];
+
+            // Suppression de l'objet de la liste des produits de la cargaison
+            
+            Cargos.forEach(cargaison => {
+              cargaison._produits.splice(index, 1);
+              newCargos.push(cargaison);
+            })
+            console.log(newCargos);
+
+            fetch("../php/data.php", {
+              method: "POST",
+              body: JSON.stringify(newCargos),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                data.cargo = newCargos;
+                save(data);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+
+              afficherCargaison(cargaison);
+
+          });
+
+          produitsContainer?.appendChild(produitCard);
+      });
+
+      row.appendChild(rowproduits);
+      liste_produits.appendChild(row);
+  }
+
+  // Afficher seulement la dernière cargaison par défaut
+  if (Cargos.length > 0) {
+      afficherCargaison(Cargos[Cargos.length - 1]);
+  }
+
+  // Ajouter un écouteur d'événements pour la recherche par numéro de cargaison
+  searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        const searchValue = searchInput.value.trim();
+        if (searchValue) {
+            const searchNum = Number(searchValue); // Conversion en nombre
+            const cargaison = Cargos.find(c => c._num === searchNum);
+            if (cargaison) {
+                afficherCargaison(cargaison);
+            } else {
+                liste_produits.innerHTML = "<p>Aucune cargaison trouvée avec ce numéro.</p>";
+            }
+        } else {
+            // Afficher la dernière cargaison si le champ de recherche est vide
+            if (Cargos.length > 0) {
+                afficherCargaison(Cargos[Cargos.length - 1]);
+            }
+        }
+    }
+  });
+
+
+
+          
 });
 
 

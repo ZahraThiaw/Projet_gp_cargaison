@@ -42,7 +42,7 @@ export interface destinataire {
   email?: string;
 }
 
-export type statut = 'en attente' | 'en cours' | 'livree' | 'annulee';
+export type statut = 'en attente' | 'en cours' | 'arrivé' | 'perdu';
 export abstract class Produit {
   protected code: number;
   protected abstract type :string;

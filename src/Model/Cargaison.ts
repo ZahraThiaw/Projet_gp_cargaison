@@ -11,7 +11,7 @@ export abstract class Cargaison {
   private dateDepart: string;
   private dateArrivee: string;
   private etat: 'ouvert' | 'fermé';
-  private etape: 'en attente' | 'en cours' | 'arrivé';
+  private etape: 'en attente' | 'en cours' | 'arrivé' | 'perdue';
   protected abstract produits: Produit[];
   
 
@@ -25,7 +25,7 @@ export abstract class Cargaison {
     dateDepart: string,
     dateArrivee: string,
     etat: 'ouvert' | 'fermé',
-    etape: 'en attente' | 'en cours' | 'arrivé'
+    etape: 'en attente' | 'en cours' | 'arrivé' | 'perdue'
   ) {
     this.distance = distance;
     this.num = num;
@@ -37,6 +37,22 @@ export abstract class Cargaison {
     this.dateArrivee = dateArrivee;
     this.etat = etat;
     this.etape = etape;
+  }
+
+  get _type(): string {
+    return this.type;
+  }
+
+  set _type(value: string) {
+    this.type = value;
+  }
+
+  get _produits(): Produit[] {
+    return this.produits;
+  }
+
+  set _produits(value: Produit[]) {
+    this.produits = value;
   }
 
   get _num(): number {
@@ -55,11 +71,11 @@ export abstract class Cargaison {
     this.etat = value;
   }
 
-  get _etape(): 'en attente' | 'en cours' | 'arrivé' {
+  get _etape(): 'en attente' | 'en cours' | 'arrivé' | 'perdue' {
     return this.etape;
   }
 
-  set _etape(value: 'en attente' | 'en cours' | 'arrivé') {
+  set _etape(value: 'en attente' | 'en cours' | 'arrivé' | 'perdue') {
     this.etape = value;
   }
 
@@ -128,6 +144,39 @@ getType() {
   getPoidsTotal(): number {
     return this.produits.reduce((total, produit) => total + produit.poids, 0);
   }
+
+  getPoidsRestant(): number {
+    return this.poidsMax - this.getPoidsTotal();
+  }
+
+  getPoidsMax(): number {
+    return this.poidsMax;
+  }
+
+  getNombreProduitsMax(): string | number {
+    return this.nbProduitsMax;
+  }
+
+  getNombreProduitsRestant(): number  {
+    return this.nbProduitsMax - this.produits.length;
+  }
+
+  getLieuDepart(): string {
+    return this.lieuDepart;
+  }
+
+  getLieuArrivee(): string {
+    return this.lieuArrivee;
+  }
+
+  getDateDepart(): string {
+    return this.dateDepart;
+  }
+
+  getDateArrivee(): string {
+    return this.dateArrivee;
+  }
+
 
   abstract produitEstValide(produit: Produit): boolean;
 }
