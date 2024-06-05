@@ -8,6 +8,9 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <title>GP du Monde</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"  rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
         
 </head>
 
@@ -159,36 +162,6 @@
                     <h2 class="text-2xl font-bold mt-4">Liste des Cargaisons</h2>
                     
                     <div id="cargaison-container" class="relative overflow-x-auto mt-8">
-                        <!-- <input type="text" id="search-input" placeholder="Rechercher..." class="mt-1 block border-gray-300 rounded-md shadow-sm p-2 border-2"> -->
-                        
-                        <!-- <div id="filter-container" class="flex flex-wrap gap-10">
-                            <div class="w-1/5">
-                                <label for="search-num" class="block text-base font-medium text-blue-600">Recherche par Numéro</label>
-                                <input type="text" id="search-num" placeholder="Recherche par Numéro" class="w-full rounded-lg">
-                            </div>
-                            <div class="w-1/5">
-                                <label for="search-type" class="block text-base font-medium text-blue-600">Recherche par Type</label>
-                                <input type="text" id="search-type" placeholder="Recherche par Type" class="w-full rounded-lg">
-                            </div>
-                            <div class="w-1/5">                            
-                                <label for="search-date-depart" class="block text-base font-medium text-blue-600">Recherche par Date de Départ</label>
-                                <input type="date" id="search-date-depart" placeholder="Recherche par Date de Départ" class="w-full rounded-lg">
-                            </div>
-                            <div class="w-1/5">
-                                <label for="search-date-arrivee" class="block text-base font-medium text-blue-600">Recherche par Date d'Arrivée</label>
-                                <input type="date" id="search-date-arrivee" placeholder="Recherche par Date d'Arrivée" class="w-full rounded-lg">
-                            </div>
-                            <div class="w-1/5">
-                                <label for="search-lieu-depart" class="block text-base font-medium text-blue-600">Recherche par Lieu de Départ</label>
-                                <input type="text" id="search-lieu-depart" placeholder="Recherche par Lieu de Départ" class="w-full rounded-lg">
-                            </div>
-                            <div class="w-1/5">
-                                <label for="search-lieu-arrivee" class="block text-base font-medium text-blue-600 ">Recherche par Lieu d'Arrivée</label>
-                                <input type="text" id="search-lieu-arrivee" placeholder="Recherche par Lieu d'Arrivée" class="w-full rounded-lg">
-                            </div>
-                        </div> -->
-
-                        
 
                         <div id="filter-container" class="flex gap-2">
                             <div >
@@ -254,12 +227,6 @@
                                     <th scope="col" class="px-6 py-3">
                                         Lieu d'arrivée
                                     </th>
-                                    <!-- <th scope="col" class="px-6 py-3">
-                                        Etat
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Etape
-                                    </th> -->
 
                                 </tr>
                             </thead>
@@ -389,7 +356,7 @@
             
 
             <section id="produit" class="section">
-                <input type="search" id="search-par-numcargo" placeholder="Recherche par numero cargo" class="rounded-lg">
+                <input type="search" id="search-par-numcargo" placeholder="Recherche par numero cargo" class="rounded-lg mb-5">
                 <div id="liste-produits">
 
                 </div>

@@ -45,6 +45,10 @@ export class Aerienne extends Cargaison {
     } else if(produit instanceof Incassable || produit instanceof Fragile) {
       frais = 1000 * produit.poids; // 1000F/kg pour les matériels
     }
+
+    if (frais < 10000) {
+      return frais = 10000;
+    }
     return frais;
   }
 }

@@ -153,11 +153,14 @@ getType() {
     return this.poidsMax;
   }
 
-  getNombreProduitsMax(): string | number {
+  getNombreProduitsMax(): number | null {
     return this.nbProduitsMax;
   }
 
-  getNombreProduitsRestant(): number  {
+  getNombreProduitsRestant(): number | null {
+    if (this.nbProduitsMax === null) {
+      return null;
+    }
     return this.nbProduitsMax - this.produits.length;
   }
 

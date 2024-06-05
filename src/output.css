@@ -3667,10 +3667,6 @@ details.collapse summary::-webkit-details-marker {
   width: 33.333333%;
 }
 
-.w-1\/5 {
-  width: 20%;
-}
-
 .w-11\/12 {
   width: 91.666667%;
 }
@@ -3815,10 +3811,6 @@ details.collapse summary::-webkit-details-marker {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.gap-10 {
-  gap: 2.5rem;
 }
 
 .gap-2 {

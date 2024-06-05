@@ -44,6 +44,10 @@ export class Maritime extends Cargaison {
     } else if (produit instanceof Incassable) {
       frais = 400 * produit.poids * this._distance; // 400F/kg/km pour les matériels
     }
+
+    if (frais < 10000) {
+      return frais = 10000;
+    }
     return frais;
   }
 

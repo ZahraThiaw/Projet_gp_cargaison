@@ -41,6 +41,10 @@ export class Routiere extends Cargaison {
     } else {
       frais = 200 * produit.poids * this._distance; // 200F/kg/km pour les matériels
     }
+
+    if (frais < 10000) {
+      return frais = 10000;
+    }
     return frais;
   }
 }
