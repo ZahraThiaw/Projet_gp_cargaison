@@ -121,6 +121,10 @@ export abstract class Cargaison {
           return true;
       }
 
+      // Vérifier si le poids total des produits plus le poids du produit à ajouter est inferieur ou égal au poids maximum de la cargaison
+      // if (poidsTotal + produit.poids <= this.poidsMax) {
+      //     return true;
+      // }
       // Si aucun des critères n'est rempli, la cargaison n'est pas pleine
       return false;
   }
@@ -145,11 +149,16 @@ getType() {
     return this.produits.reduce((total, produit) => total + produit.poids, 0);
   }
 
-  getPoidsRestant(): number {
-    return this.poidsMax - this.getPoidsTotal();
+  getPoidsRestant(): number | null {
+    if (this.poidsMax === null) {
+      return null;
+    } else{
+
+      return this.poidsMax - this.getPoidsTotal();
+    }
   }
 
-  getPoidsMax(): number {
+  getPoidsMax(): number | null {
     return this.poidsMax;
   }
 
@@ -160,8 +169,11 @@ getType() {
   getNombreProduitsRestant(): number | null {
     if (this.nbProduitsMax === null) {
       return null;
+    } else {
+
+      return this.nbProduitsMax - this.produits.length;
     }
-    return this.nbProduitsMax - this.produits.length;
+    
   }
 
   getLieuDepart(): string {
