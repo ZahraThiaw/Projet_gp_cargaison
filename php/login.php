@@ -1,18 +1,25 @@
 <?php
+  // Lire le fichier JSON
+  $json = file_get_contents('../data/user.json');
+  $users = json_decode($json, true);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$data = file_get_contents('../data/user.json');
-$data = json_decode($data, true);
+    // Récupérer l'email et le mot de passe depuis la requête POST
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-header('Content-Type: application/json');
-echo json_encode($data);
+    // Vérifier si l'utilisateur existe
+    foreach ($users as $user) {
+        if ($user['email'] === $email && $user['password'] === $password) {
+            echo json_encode(['status' => 'success']);
+            exit;
+        }
+    }
 
-function saveFile ($data) {
-  $data = json_encode($data);
-  file_put_contents('../data/user.json', $data);
-}
-//recuperer les donnes envoye par ts pour enregistrer dans le fichier json
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $data = json_decode(file_get_contents('php://input'), true);
-  saveFile($data);
+    echo json_encode(['status' => 'error']);
+    exit;
+} else {
+    echo json_encode(['status' => 'invalid_method']);
+    exit;
 }
 ?>

@@ -47,31 +47,37 @@
         
     </div>
 
-    <div id="login-page" class="container mx-auto px-5 min-h-screen hidden">
+    <div id="login-page" class="container mx-auto px-5 min-h-screen hidden p-1 max-w-xlshadow-md rounded-xl">
         <header>
             <h1 class="text-3xl font-bold text-center p-6 bg-white rounded-b-xl">GP du Monde Transporter vos produits en toute sécurité</h1>
         </header>
 
-        <div id="login-form-container" class="flex justify-between items-center mt-20 p-1 max-w-xl mx-auto shadow-md  bg-white rounded-xl">
-            <form id="login-form" class="space-y-4 mt-2 bg-white p-4 rounded-xl w-full mx-auto flex flex-col items-center">
-                <h2 class="text-2xl font-bold text-center text-blue-600">Se connecter</h2>
-                
-                <div class="w-full">
-                    <label for="email-user" class="block text-base font-medium text-blue-600">Entrer votre email</label>
-                    <input type="text" id="email-user" name="email-user"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-4 border-2" placeholder="Entrer votre email">
-                    <span class="error-message text-red-600 text-sm"></span>
-                </div>
-                <div class="w-full">
-                    <label for="password" class="block text-base font-medium text-blue-600">Entrer votre mot de passe</label>
-                    <input type="text" id="password" name="password"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-4 border-2" placeholder="Entrer votre mot de passe">
-                    <span class="error-message text-red-600 text-sm"></span>
-                </div>
-                
-                <button type="submit" id="connexion-btn" class="bg-blue-500 text-white py-2 rounded-md shadow-sm p-5">Connexion</button>
+        <!-- <div id="login-form-container" class="flex justify-between items-center mt-20 p-1 max-w-xl mx-auto shadow-md  bg-gray-100 rounded-xl"> -->
+            <form id="login-form" class="space-y-4 mt-20 bg-white rounded-xl w-2/5 mx-auto flex flex-col items-center shadow-xl p-8">
+                <!-- <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md"> -->
+                    <img src="./images/logo.png" alt="Logo" class="w-25">
+                    <!-- <h2 class="text-center text-xl font-semibold mb-4">Bienvenue sur <span class="text-blue-600">Gp-monde</span></h2> -->
+                    <h2 class="text-center text-2xl mb-6">Se connecter</h2>
+                    
+                    <div class="w-full">
+                        <label for="email-user" class="block text-base font-medium text-blue-600">Entrer votre email</label>
+                        <input type="text" id="email-user" name="email-user"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-4 border-2" placeholder="Entrer votre email">
+                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
+                    </div>
+                    <div class="w-full">
+                        <label for="password" class="block text-base font-medium text-blue-600">Entrer votre mot de passe</label>
+                        <input type="text" id="password" name="password"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-4 border-2" placeholder="Entrer votre mot de passe">
+                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
+                    </div>
+                    <div class="text-right mb-4">
+                    <a href="#" class="text-blue-500 hover:text-blue-700 text-sm">Mot de passe oublié ?</a>
+                    </div>
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Connexion</button>
+                <!-- </div> -->
             </form>
-        </div>
+        <!-- </div> -->
         
     </div>
 
