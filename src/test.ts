@@ -388,43 +388,52 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (searchValue) {
             const searchNum = Number(searchValue); // Conversion en nombre
             //Parcourir la liste des cargaisons et trouver le produit correspondant
-            
+            let trouve = 0;
             Cargos.forEach((cargaison) => {
-              const products = cargaison._produits.find(product => product._code == searchNum);
+              //const products = cargaison._produits.find(product => product._code == searchNum);
               console.log(cargaison._produits);
               
-              console.log(products);
-              
-              
-              
-              if (products) {
+              //console.log(products);
+             
+              cargaison._produits.forEach((product) => {
+                if (searchNum == product._code){
+                  console.log(searchNum);
+                  console.log(product._code);
+                  trouve= 1;
+                
+                  productdetails.classList.remove('hidden');
+
+                  productinfos.innerHTML =`
+
+
+                    <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
+                        <h1 class="text-2xl py-3 font-bold bg-gradient-to-tl from-blue-400 to-blue-700 text-white mb-4 text-center rounded">Etat d'avancement de votre produit  ${product._code}</h1>
+                        <div class="mb-20 space-y-2">
+                            <div class="mb-20 grid grid-cols-3">
+                              <p><i class="fas fa-barcode"></i> <strong>Code:</strong> ${product._code}</p>
+                              <p><i class="fas fa-box"></i> <strong>Libelle:</strong> ${product.libelle}</p>
+                              <p><i class="fas fa-clock"></i> <strong>Statut:</strong> ${product.statut}</p>
+                            </div>
+                            <div class="mb-20 mt-10 grid grid-cols-3">
+                              <p><i class="fas fa-calendar-alt"></i> <strong>Date de Départ:</strong> ${cargaison.getDateDepart()}</p>
+                              <p><i class="fas fa-calendar-alt"></i> <strong>Date d'Arrivée:</strong> ${cargaison.getDateArrivee()}</p>
+                            </div>
+                        </div>
+                    </div>`
+                  ;
+                } 
+                
+               
+
+              });
+
+              if (trouve == 0){
                 productdetails.classList.remove('hidden');
-
-                const detail = document.createElement("div");
-                detail.classList.add("max-w-5xl", "mx-auto", "bg-white", "shadow-md", "rounded-lg", "p-6");
-                detail.innerHTML = `
-                  <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
-                      <h1 class="text-2xl py-3 font-bold bg-gradient-to-tl from-blue-400 to-blue-700 text-white mb-4 text-center rounded">Etat d'avancement de votre produit ${products._code}</h1>
-                      <div class="mb-20 space-y-2">
-                          <div class="mb-20 grid grid-cols-3">
-                            <p><i class="fas fa-barcode"></i> <strong>Code:</strong> ${products._code}</p>
-                            <p><i class="fas fa-box"></i> <strong>Libelle:</strong> ${products.libelle}</p>
-                            <p><i class="fas fa-clock"></i> <strong>Statut:</strong> ${products.statut}</p>
-                          </div>
-                          <div class="mb-20 mt-10 grid grid-cols-3">
-                            <p><i class="fas fa-calendar-alt"></i> <strong>Date de Départ:</strong> ${cargaison.getDateDepart()}</p>
-                            <p><i class="fas fa-calendar-alt"></i> <strong>Date d'Arrivée:</strong> ${cargaison.getDateArrivee()}</p>
-                          </div>
-                      </div>
-                  </div>
-                `;
-        
-                productinfos.innerHTML = ''; // Clear any previous info
-                productinfos.appendChild(detail);
-
-                } else {
-                    productinfos.innerHTML = `<p class="text-center">Aucun produit correspondant.</p>`;
-                }
+                  const productinfo = document.getElementById('product-info') as HTMLDivElement;
+                    productinfo.innerHTML = `<p class="text-center text-2xl">Aucun produit correspondant.</p>`;
+                  
+              }
+              
             });
             
         } else {
@@ -433,59 +442,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
   });
 
-  // searchproduct.addEventListener("keypress", (event) => {
-  //   if (event.key === "Enter") {
-  //       const searchValue = searchproduct.value.trim();
-  //       if (searchValue) {
-  //           const searchNum = Number(searchValue); // Conversion en nombre
-
-  //           console.log(searchNum);
-            
-  //           //Parcourir la liste des cargaisons et trouver le produit correspondant
-            
-  //           Cargos.forEach((cargaison) => {
-  //               const products = cargaison._produits
-                
-  //               console.log(products);
-                
-  //               productdetails.classList.remove('hidden');
-
-  //               products.forEach((product) => {
-  //                 console.log(product._code);
-                  
-  //                 if (searchNum === product._code){
-  //                   // Afficher les informations du produit
-  //                   productinfos.innerHTML = `
-  //                     <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
-  //                         <h1 class="text-2xl py-3 font-bold bg-gradient-to-tl from-blue-400 to-blue-700 text-white mb-4 text-center rounded">Etat d'avancement de votre produit ${product._code}</h1>
-  //                         <div class="mb-20 space-y-2">
-  //                             <div class="mb-20 grid grid-cols-3">
-  //                               <p><i class="fas fa-barcode"></i> <strong>Code:</strong> ${product._code}</p>
-  //                               <p><i class="fas fa-box"></i> <strong>Libelle:</strong> ${product.libelle}</p>
-  //                               <p><i class="fas fa-clock"></i> <strong>Statut:</strong> ${product.statut}</p>
-  //                             </div>
-  //                             <div class="mb-20 mt-10 grid grid-cols-3">
-  //                               <p><i class="fas fa-calendar-alt"></i> <strong>Date de Départ:</strong> ${cargaison.getDateDepart()}</p>
-  //                               <p><i class="fas fa-calendar-alt"></i> <strong>Date d'Arrivée:</strong> ${cargaison.getDateArrivee()}</p>
-  //                             </div>
-  //                         </div>
-  //                     </div>
-  //                     `;
-
-  //                 } else {
-  //                   productinfos.innerHTML = '<p class="text-center">Aucun produit correspondant.</p>';
-  //                 }
-
-  //               })
-                
-              
-  //           });
-            
-  //       } else {
-  //           productdetails.classList.add('hidden');
-  //       }
-  //     }
-  // });
+  
 
   const loginbtn = document.getElementById('login-btn') as HTMLButtonElement;
   const loginpage = document.getElementById('login-page') as HTMLDivElement;
@@ -512,20 +469,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     
-     // Créer un objet pour stocker les données
-     const data = new URLSearchParams();
-     data.append('email', email);
-     data.append('password', password);
+    //  // Créer un objet pour stocker les données
+    //  const data = new URLSearchParams();
+    //  data.append('email', email);
+    //  data.append('password', password);
 
-    // Send the data to the PHP script using fetch API
-    fetch("../php/login.php", {
-        method: 'POST',
-        body: data,
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === 'success') {
-  
+    //  let valide = 0;
+
+    // // Send the data to the PHP script using fetch API
+    // fetch("../php/login.php", {
+    //     method: 'POST',
+    //     body: data,
+    // })
+    // .then(response => response.json())
+    // .then(result => {
+    //     if (result.status === 'success') {
+
+    //       valide = 1 ;
   
 
         
@@ -899,26 +859,26 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <p><strong>Frais de la cargaison:</strong> ${fraisduProduit} F</p>
                         `;
 
-                        // const emailcontentperte: EmailContent = {
-                        //   recipients: [''+newProduct.destinataire.email+'', ''+newProduct.client.email+''],
-                        //   subject: 'Réception de votre produit ' + newProduct.libelle + '',
-                        //   text: 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.',
-                        //   html: receiptContent,
-                        // };
-                        // sendEmail(emailcontentperte);
+                        const emailcontentperte: EmailContent = {
+                          recipients: [''+newProduct.destinataire.email+'', ''+newProduct.client.email+''],
+                          subject: 'Réception de votre produit ' + newProduct.libelle + '',
+                          text: 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.',
+                          html: receiptContent,
+                        };
+                        sendEmail(emailcontentperte);
 
 
-                        //   // Envoyer un SMS
-                        //   const numero1 = newProduct.client.phone;
-                        //   const numero2 = newProduct.destinataire.phone;
-                        //   const message = 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.';
+                          // Envoyer un SMS
+                          const numero1 = newProduct.client.phone;
+                          const numero2 = newProduct.destinataire.phone;
+                          const message = 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.';
                           
-                        //   sendSms(numero1, message);
-                        //   sendSms(numero2, message);
-                        // })
-
-                        
-                        
+                          sendSms(numero1, message);
+                          sendSms(numero2, message);
+                          
+                          
+                        //})
+                          
                         
                         // // Envoyer le reçu par e-mail
                         // const emailContent = {
@@ -1099,24 +1059,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                         isValid = true;
                         successMessage = "La cargaison est arrivé. Un email et un SMS ont bien été envoyé.";
 
-                        // detailCargaison._produits.forEach((produit: Produit) => {
-                        //   // Envoyer un email
-                        //   const emailcontentperte: EmailContent = {
-                        //     recipients: ['' + produit.client.email, '' + produit.destinataire.email],
-                        //     subject: 'Avis d\'arrivée de cargaison',
-                        //     text: 'Bonjour, \n Cher client, nous avons le regret de vous informer que la cargaison contenant votre produit avec le code: ' + produit._code + ' est perdu. Veuillez nous excuser pour ce dommage.\n Cordialement l\'équipe de Gp-monde.',
-                        //     html: '<p>Bonjour, \n Cher client, nous avons le regret de vous informer que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez nous excuser pour ce dommage.\n Cordialement l\'équipe de Gp-monde.</p>',
-                        //   };
-                        //   sendEmail(emailcontentperte);
+                        detailCargaison._produits.forEach((produit: Produit) => {
+                          // Envoyer un email
+                          const emailcontentperte: EmailContent = {
+                            recipients: ['' + produit.client.email, '' + produit.destinataire.email],
+                            subject: 'Avis d\'arrivée de cargaison',
+                            text: 'Bonjour, \n Cher client, nous avons le regret de vous informer que la cargaison contenant votre produit avec le code: ' + produit._code + ' est perdu. Veuillez nous excuser pour ce dommage.\n Cordialement l\'équipe de Gp-monde.',
+                            html: '<p>Bonjour, \n Cher client, nous avons le regret de vous informer que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez nous excuser pour ce dommage.\n Cordialement l\'équipe de Gp-monde.</p>',
+                          };
+                          sendEmail(emailcontentperte);
                           
-                        //   // Envoyer un SMS
-                        //   const numero1 = produit.client.phone;
-                        //   const numero2 = produit.destinataire.phone;
-                        //   const message = 'Bonjour, \n Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde';
+                          // Envoyer un SMS
+                          const numero1 = produit.client.phone;
+                          const numero2 = produit.destinataire.phone;
+                          const message = 'Bonjour, \n Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde';
                           
-                        //   sendSms(numero1, message);
-                        //   sendSms(numero2, message);
-                        // })
+                          sendSms(numero1, message);
+                          sendSms(numero2, message);
+                        })
 
                     } else if (etat === "ouvert" && detailCargaison._etat === "fermé" && (etape === "en cours" || etape === "arrivé" || etape === "perdue") && detailCargaison._etape === "en cours") {
                         isValid = false;
@@ -1127,22 +1087,22 @@ document.addEventListener("DOMContentLoaded", async () => {
                         detailCargaison._produits.forEach((produit: Produit) => {
                             produit.statut = "perdu";
 
-                            // // Envoyer un email
-                            // const emailcontentperte: EmailContent = {
-                            //   recipients: ['' + produit.client.email, '' + produit.destinataire.email],
-                            //   subject: 'Avis de perte de cargaison',
-                            //   text: 'Bonjour, ' + ' \n' + ' Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour recupérer votre produit avec le code du produit.' + '\n ' + 'Cordialement l\'équipe de Gp-monde.',
-                            //   html: '<p>Bonjour, ' + ' \n' + ' Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour recupérer votre produit avec le code du produit.' + '\n ' + 'Cordialement l\'équipe de Gp-monde.</p>',
-                            // };
-                            // sendEmail(emailcontentperte);
+                            // Envoyer un email
+                            const emailcontentperte: EmailContent = {
+                              recipients: ['' + produit.client.email, '' + produit.destinataire.email],
+                              subject: 'Avis de perte de cargaison',
+                              text: 'Bonjour, ' + ' \n' + ' Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour recupérer votre produit avec le code du produit.' + '\n ' + 'Cordialement l\'équipe de Gp-monde.',
+                              html: '<p>Bonjour, ' + ' \n' + ' Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour recupérer votre produit avec le code du produit.' + '\n ' + 'Cordialement l\'équipe de Gp-monde.</p>',
+                            };
+                            sendEmail(emailcontentperte);
                             
-                            // // Envoyer un SMS
-                            // const numero1 = produit.client.phone;
-                            // const numero2 = produit.destinataire.phone;
-                            // const message = 'Bonjour, \n Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde';
+                            // Envoyer un SMS
+                            const numero1 = produit.client.phone;
+                            const numero2 = produit.destinataire.phone;
+                            const message = 'Bonjour, \n Cher client, nous vous informons que la cargaison contenant votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde';
                             
-                            // sendSms(numero1, message);
-                            // sendSms(numero2, message);
+                            sendSms(numero1, message);
+                            sendSms(numero2, message);
 
                         })
                     } else if (etat === "fermé" && detailCargaison._etat === "fermé" && etape === "perdue" && detailCargaison._etape === "arrivé") {
@@ -1365,42 +1325,42 @@ document.addEventListener("DOMContentLoaded", async () => {
                   isValid = true;
                   successMessage = "Le produit est arrivé";
 
-                  // const emailcontentperte: EmailContent = {
-                  //   recipients: ['' + produit.destinataire.email + '', '' + produit.client.email + ''],
-                  //   subject: 'Avis d\'arrivée de produit',
-                  //   text: 'Bonjour, \n Cher client, nous vous informons que votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde.',
-                  //   html: '<p>Bonjour, \n Cher client, nous vous informons que votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde.</p>',
-                  // };
-                  // sendEmail(emailcontentperte);
+                  const emailcontentperte: EmailContent = {
+                    recipients: ['' + produit.destinataire.email + '', '' + produit.client.email + ''],
+                    subject: 'Avis d\'arrivée de produit',
+                    text: 'Bonjour, \n Cher client, nous vous informons que votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde.',
+                    html: '<p>Bonjour, \n Cher client, nous vous informons que votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde.</p>',
+                  };
+                  sendEmail(emailcontentperte);
 
 
-                  // const numero1 = produit.client.phone;
-                  // const numero2 = produit.destinataire.phone;
-                  // const message = 'Bonjour, \n Cher client, nous vous informons que votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde';
+                  const numero1 = produit.client.phone;
+                  const numero2 = produit.destinataire.phone;
+                  const message = 'Bonjour, \n Cher client, nous vous informons que votre produit avec le code: ' + produit._code + ' est arrivé. Veuillez passer pour le recupérer avec le code du produit.\n Cordialement l\'équipe de Gp-monde';
 
-                  // sendSms(numero1, message);
-                  // sendSms(numero2, message);
+                  sendSms(numero1, message);
+                  sendSms(numero2, message);
 
                 } else if (statutSelect === "perdu" && produit.statut === "en cours" && cargaison._etape === "arrivé") {
                   isValid = true;
                   successMessage = "Le produit est perdu";
 
-                  // const emailcontentperte: EmailContent = {
-                  //   recipients: ['' + produit.destinataire.email + '', '' + produit.client.email + ''],
-                  //   subject: 'Avis de perte de produit',
-                  //   text: 'Bonjour, \n Cher client, nous avons le regret de vous informer que votre produit avec le code: ' + produit._code + ' est perdu.\n Cordialement l\'équipe de Gp-monde.',
-                  //   html: '<p>Bonjour, \n Cher client, nous avons le regret de vous informer que votre produit avec le code: ' + produit._code + ' est perdu.\n Cordialement l\'équipe de Gp-monde.</p>',
-                  // };
-                  // sendEmail(emailcontentperte);
+                  const emailcontentperte: EmailContent = {
+                    recipients: ['' + produit.destinataire.email + '', '' + produit.client.email + ''],
+                    subject: 'Avis de perte de produit',
+                    text: 'Bonjour, \n Cher client, nous avons le regret de vous informer que votre produit avec le code: ' + produit._code + ' est perdu.\n Cordialement l\'équipe de Gp-monde.',
+                    html: '<p>Bonjour, \n Cher client, nous avons le regret de vous informer que votre produit avec le code: ' + produit._code + ' est perdu.\n Cordialement l\'équipe de Gp-monde.</p>',
+                  };
+                  sendEmail(emailcontentperte);
 
 
-                  // const numero1 = produit.client.phone ;
-                  // const numero2 =  produit.destinataire.phone;
-                  // const message = 'Bonjour, \n Cher client, nous avons le regret de vous informer que votre produit avec le code: ' + produit._code + ' est perdu.\n Cordialement l\'équipe de Gp-monde.';
+                  const numero1 = produit.client.phone ;
+                  const numero2 =  produit.destinataire.phone;
+                  const message = 'Bonjour, \n Cher client, nous avons le regret de vous informer que votre produit avec le code: ' + produit._code + ' est perdu.\n Cordialement l\'équipe de Gp-monde.';
 
-                  // sendSms(numero1, message);
+                  sendSms(numero1, message);
 
-                  // sendSms(numero2, message);
+                  sendSms(numero2, message);
 
 
                 } else if (statutSelect === "recuperé" && produit.statut === "arrivé" && cargaison._etape === "arrivé") {
@@ -1607,13 +1567,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         
 
-      } else {
-        alert('Invalid email or password.');
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-});
+      //}
+    //    else {
+    //     //alert('Invalid email or password.');
+    //     createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
+    // }
+
+    // if (valide == 0){
+    //   createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
+    // }
+// })
+// .catch(error => {
+//     console.error('Error:', error);
+// });
 
 
 
