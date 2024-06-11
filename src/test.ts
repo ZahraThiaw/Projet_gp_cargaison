@@ -442,6 +442,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
   });
 
+
+  
   
 
   const loginbtn = document.getElementById('login-btn') as HTMLButtonElement;
@@ -464,31 +466,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // Récupérer les valeurs des champs du formulaire et les comparer aux données des utilisateurs du fichier JSON
+     // Récupérer les valeurs des champs du formulaire
     const formData = new FormData(loginform);
-    const email = formData.get('email') as string;
+    const email = formData.get('email-user') as string;
     const password = formData.get('password') as string;
+
+    // Créer une chaîne de requête encodée
+    const data = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
     
-    //  // Créer un objet pour stocker les données
-    //  const data = new URLSearchParams();
-    //  data.append('email', email);
-    //  data.append('password', password);
 
-    //  let valide = 0;
-
-    // // Send the data to the PHP script using fetch API
-    // fetch("../php/login.php", {
-    //     method: 'POST',
-    //     body: data,
-    // })
-    // .then(response => response.json())
-    // .then(result => {
-    //     if (result.status === 'success') {
-
-    //       valide = 1 ;
+    // Envoyer les données au script PHP avec fetch API
+    fetch("../php/login.php", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data,
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'success') {
   
-
-        
         main_gestionnaire.classList.remove('hidden');
         loginpage.classList.add('hidden');
         userpage.classList.add('hidden');
@@ -1567,19 +1565,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         
 
-      //}
-    //    else {
-    //     //alert('Invalid email or password.');
-    //     createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
-    // }
+      }
+       else {
+        //alert('Invalid email or password.');
+        createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
+    }
 
-    // if (valide == 0){
-    //   createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
-    // }
-// })
-// .catch(error => {
-//     console.error('Error:', error);
-// });
+
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+
+    
 
 
 
