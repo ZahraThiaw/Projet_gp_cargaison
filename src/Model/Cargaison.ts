@@ -121,7 +121,9 @@ export abstract class Cargaison {
           return true;
       }
 
+
       // Vérifier si le poids total des produits plus le poids du produit à ajouter est inferieur ou égal au poids maximum de la cargaison
+      
       // if (poidsTotal + produit.poids <= this.poidsMax) {
       //     return true;
       // }
@@ -191,6 +193,7 @@ getType() {
   getDateArrivee(): string {
     return this.dateArrivee;
   }
+  
 
 
   abstract produitEstValide(produit: Produit): boolean;

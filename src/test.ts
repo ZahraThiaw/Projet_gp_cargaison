@@ -333,7 +333,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Fonction pour afficher les messages d'erreur
   function showErrorMessage(input: HTMLInputElement, message: string) {
     const errorMessage = input.nextElementSibling as HTMLElement;
-    errorMessage.style.height = '40px';
     errorMessage.textContent = message;
     errorMessage.style.visibility = 'visible';
   }
@@ -483,6 +482,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'success') {
+          
+        loginform.reset();
   
         main_gestionnaire.classList.remove('hidden');
         loginpage.classList.add('hidden');
@@ -654,6 +655,10 @@ document.addEventListener("DOMContentLoaded", async () => {
               data.cargo.push(nouvelleCargaison); // Ajouter les cargaisons mises à jour au tableau cargaisons;
               save(data);
               createNotification({ type: 'success', message: "Cargaison ajoutée avec succès" });
+              afficherCargaisons();
+              form.reset();
+              dialog.close(); // Fermer le dialogue après l'envoi réussi
+
             })
             .catch((error) => {
               console.error(error);
@@ -737,8 +742,12 @@ document.addEventListener("DOMContentLoaded", async () => {
               cargaison['dateArrivee'].toLowerCase().includes(searchQueriesmores.dateArrivee)
             );
           });
+
+          const startIndex = (page - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+          const cargaisonsToDisplay = filteredCargaisons.slice(startIndex, endIndex);
         
-          filteredCargaisons.forEach(cargaison => {
+          cargaisonsToDisplay.forEach(cargaison => {
             const row = document.createElement("tr");
             row.classList.add("mt-8");
             row.classList.add("border");
@@ -863,8 +872,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                         const emailcontentperte: EmailContent = {
                           recipients: [''+newProduct.destinataire.email+'', ''+newProduct.client.email+''],
                           subject: 'Réception de votre produit ' + newProduct.libelle + '',
-                          text: 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.',
-                          html: '<p>Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.</p>',
+                          text: 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', avec les frais de' + fraisduProduit + ' \n ' + 'Cordialement l\'équipe de Gp-monde.',
+                          html: '<p>Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', avec les frais de' + fraisduProduit  + ' \n ' + 'Cordialement l\'équipe de Gp-monde.</p>',
                         };
                         sendEmail(emailcontentperte);
 
@@ -872,7 +881,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                           // Envoyer un SMS
                           const numero1 = newProduct.client.phone;
                           const numero2 = newProduct.destinataire.phone;
-                          const message = 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.';
+                          const message = 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', avec les frais de' + fraisduProduit + ' \n ' + 'Cordialement l\'équipe de Gp-monde.';
                           
                           sendSms(numero1, message);
                           sendSms(numero2, message);
@@ -937,7 +946,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               }
             });
           });
-
         
 
           // // Au clic sur le bouton "Détails", afficher le modal de détail de la cargaison
@@ -1198,14 +1206,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Toggle toxicity level field based on product type
         document.getElementById("product-type")?.addEventListener("change", () => {
           const productType = (document.getElementById("product-type") as HTMLSelectElement).value;
-          const toxicityLevel = document.getElementById("degre-de-toxicite") as HTMLDivElement;
-          const degretoxicite = document.getElementById("degre-toxicite") as HTMLDivElement;
-          if (productType !== "Chimique") {
-            degretoxicite.classList.add("hidden");
+          const toxicityLevel = document.getElementById("degre-de-toxicite") as HTMLInputElement;
+          const degreDeToxicitelabel = document.getElementById("degre-de-toxicite-label") as HTMLLabelElement;
+          if (productType === "Chimique") {
+            toxicityLevel.classList.remove("hidden");
+            degreDeToxicitelabel.classList.remove("hidden");
+
           } 
-          // else {
-          //   toxicityLevel.classList.add("hidden");
-          // }
+          else {
+            toxicityLevel.classList.add("hidden");
+            degreDeToxicitelabel.classList.add("hidden");
+          }
         });
 
         const liste_produits = document.getElementById("liste-produits") as HTMLDivElement;
@@ -1399,20 +1410,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                   errorMessage = "Le statut du produit ne peut pas être modifié avec ce statut";
                 }
 
-
                 if (isValid) {
                   try {
-
-                    let newCargos : Cargaison[] = [];
-
+                    let newCargos: Cargaison[] = [];
+                
                     // Modifier le statut de l'objet de la liste des produits de la cargaison
-                    
                     Cargos.forEach(cargaison => {
-                      cargaison._produits[index].statut = statutSelect;
+                      if (cargaison._produits[index]) { // Assurer que le produit à l'indice donné existe
+                        cargaison._produits[index].statut = statutSelect;
+                      }
                       newCargos.push(cargaison);
-                    })
+                      
+                    });
+                
                     console.log(newCargos);
-
+                
                     fetch("../php/data.php", {
                       method: "POST",
                       body: JSON.stringify(newCargos),
@@ -1426,22 +1438,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                       .catch((error) => {
                         console.error(error);
                       });
-
-                    }
-                    catch (error) {
-                          console.error('Erreur:', error);
-                          //alert('Erreur lors de la mise à jour');
-                          createNotification({ type: 'error', message: 'Erreur lors de la mise à jour', duration: 3000 });
-                    }
+                
+                  } catch (error) {
+                    console.error('Erreur:', error);
+                    //alert('Erreur lors de la mise à jour');
+                    createNotification({ type: 'error', message: 'Erreur lors de la mise à jour', duration: 3000 });
+                  }
                 }
-                else {
-                    //alert(errorMessage);
-                    createNotification({ type: 'error', message: errorMessage, duration: 3000 });
-
-                    // Mettre a jour le statut du produit
-                    (produitCard.querySelector('#statut') as HTMLSelectElement).value = produit.statut;
-                }
-
+                
               });
 
               produitsContainer?.appendChild(produitCard);
@@ -1589,6 +1593,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
 
+
+    const logout = document.getElementById('logout') as HTMLButtonElement;
+    logout.addEventListener('click', () => {
+      // Rediriger vers la page de connexion
+      window.location.href = '../public/index.php';
+    });
     
 
 

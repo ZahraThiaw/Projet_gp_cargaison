@@ -28,7 +28,7 @@
         
 
         <div>
-            <h1 class="text-3xl font-bold text-blue-600 text-center mt-5">Voir l'état de votre produit</h1>
+            <h1 class="text-3xl font-bold text-center mt-5">Voir l'état de votre produit</h1>
         </div>
         <div class="flex justify-between items-center mt-10">
             
@@ -92,7 +92,7 @@
         <nav class="bg-white w-80 min-h-screen p-4 text-black ">
             <!-- <h2 class="text-4xl font-bold mb-4">GP du Monde</h2> -->
             <div class="flex justify-center">
-            <img src="../public/images/logo.png" class="w-2/3 mt-10" alt="logo">
+                <img src="../public/images/logo.png" class="w-2/3 mt-10" alt="logo">
             </div>
 
             <ul class="mt-20">
@@ -116,12 +116,13 @@
 
         <div class="container mx-auto px-5 flex-1 min-h-screen">
             <header>
-            <h1 class="text-3xl font-bold text-center p-6 bg-white rounded-b-xl">GP du Monde - Gestion des Cargaisons</h1>
+                <h1 class="text-3xl font-bold text-center p-6 bg-white rounded-b-xl">GP du Monde - Gestion des Cargaisons</h1>
+                <button id="logout" class="btn bg-transparent text-red-600 py-2 px-4 rounded-md shadow-sm absolute right-5 top-4">Déconnexion</button>
             </header>
             <main class="py-5">
                 <div class="flex flex-col space-y-8">
                     <!-- Section Dashboard -->
-                    <section id="dashboard" class="section">
+                    <section id="dashboard" class="section bg-cover bg-center" >
                         <h2 class="text-2xl font-bold">Dashboard</h2>
                         <p>Bienvenue sur le tableau de bord de la gestion des cargaisons et des produits.</p>
 
@@ -152,31 +153,31 @@
                                             <option value="Maritime">Maritime</option>
                                             <option value="Routiere">Routière</option>
                                         </select>
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div class="w-1/2">
                                         <label for="dateDepart" class="block text-base font-medium text-blue-600">Date de Départ</label>
                                         <input type="date" id="dateDepart" name="dateDepart"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div class="w-1/2">
                                         <label for="dateArrivee" class="block text-base font-medium text-blue-600">Date d'Arrivée</label>
                                         <input type="date" id="dateArrivee" name="dateArrivee"
                                         class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div class="flex flex-col w-1/2">
                                         <label for="lieu-depart" class="block text-base font-medium text-blue-600">Lieu de Départ</label>
                                         <input type="text" id="lieu-depart" name="lieu-depart" placeholder="Lieu de Départ"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div class="flex flex-col w-1/2">
                                         <label for="lieu-arrivee" class="block text-base font-medium text-blue-600">Lieu d'Arrivée</label>
                                         <input type="text" id="lieu-arrivee" name="lieu-arrivee" placeholder="Lieu d'Arrivée"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div class="w-1/2">
                                         <label for="poidsOuProduits" class="block text-base font-medium text-blue-600">Choisir Limite</label>
@@ -185,25 +186,25 @@
                                             <option value="poidsMax">Poids Max</option>
                                             <option value="nbProduitsMax">Nombre de Produits Max</option>
                                         </select>
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div id="poidsMaxDiv" class="w-1/2">
                                         <label for="poidsMax" class="block text-base font-medium text-blue-600">Poids Max</label>
                                         <input type="number" min="1" id="poidsMax" name="poidsMax" placeholder="Poids Max"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div id="nbProduitsMaxDiv" class="w-1/2 hidden">
                                         <label for="nbProduitsMax" class="block text-base font-medium text-blue-600">Nombre de produits Max</label>
                                         <input type="number" min="1" id="nbProduitsMax" name="nbProduitsMax" placeholder="Nombre de Produits Max"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div class="w-1/2">
                                         <label for="distance" class="block text-base font-medium text-blue-600">Distance</label>
                                         <input type="text" id="distance" name="distance" readonly
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                        <span class="error-message text-red-600 text-sm"></span>
+                                        <span class="error-message text-red-600 text-sm py-15 px-2"></span>
                                     </div>
                                     <div id="map" class="h-64 mt-4 w-full"></div>
                                     <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md shadow-sm">Ajouter Cargaison</button>
@@ -308,75 +309,75 @@
                                             <label for="client-name" class="block text-base font-medium text-blue-600">Nom du client</label>
                                             <input type="text" id="client-name" name="client-name" placeholder="client-name"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="client-prenom" class="block text-base font-medium text-blue-600">Prénom du client</label>
                                             <input type="text" id="client-prenom" name="client-prenom" placeholder="client-prenom"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="client-adresse" class="block text-base font-medium text-blue-600">Adreese du client</label>
                                             <input type="text" id="client-adresse" name="client-adresse" placeholder="client-adresse"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="client-telephone" class="block text-base font-medium text-blue-600">Téléphone du client</label>
                                             <input type="text" id="client-telephone" name="client-telephone" placeholder="client-telephone"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="client-email" class="block text-base font-medium text-blue-600">Email du client</label>
                                             <input type="text" id="client-email" name="client-email" placeholder="client-email"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
 
                                         <div class="flex flex-col w-1/2">
                                             <label for="recipient-name" class="block text-base font-medium text-blue-600">Nom du destinataire</label>
                                             <input type="text" id="recipient-name" name="recipient-name" placeholder="recipient-name"
                                                 class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                                <span class="error-messageProd text-red-600 text-sm"></span>
+                                                <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="recipient-prenom" class="block text-base font-medium text-blue-600">Prénom du destinataire</label>
                                             <input type="text" id="recipient-prenom" name="recipient-prenom" placeholder="recipient-prenom"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="recipient-adresse" class="block text-base font-medium text-blue-600">Adreese du destinataire</label>
                                             <input type="text" id="recipient-adresse" name="recipient-adresse" placeholder="recipient-adresse"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="recipient-telephone" class="block text-base font-medium text-blue-600">Téléphone du destinataire</label>
                                             <input type="text" id="recipient-telephone" name="recipient-telephone" placeholder="recipient-telephone"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="flex flex-col w-1/2">
                                             <label for="recipient-email" class="block text-base font-medium text-blue-600">Email du destinataire</label>
                                             <input type="text" id="recipient-email" name="recipient-email" placeholder="recipient-email"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         
                                         <div class="w-1/2">
                                             <label for="product-name" class="block text-base font-medium text-blue-600">Nom du produit</label>
                                             <input type="text" id="product-name" name="product-name"
                                                 class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="w-1/2">
                                             <label for="product-weight" class="block text-base font-medium text-blue-600">Poids du produit</label>
                                             <input type="number" min="1" id="product-weight" name="product-weight"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <div class="w-1/2">
                                             <label for="product-type" class="block text-base font-medium text-blue-600">Type de produit</label>
@@ -388,13 +389,13 @@
                                                 <option value="Fragile">Fragile</option>
 
                                             </select>
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
-                                        <div class="w-1/2" id="degre-toxicite">
-                                            <label for="degre-de-toxicite" class="block text-base font-medium text-blue-600">Dégré de toxicité</label>
+                                        <div class="w-1/2">
+                                            <label for="degre-de-toxicite" id="degre-de-toxicite-label" class="block text-base font-medium text-blue-600">Dégré de toxicité</label>
                                             <input type="number" min="1" max="10" id="degre-de-toxicite" name="degre-de-toxicite"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
-                                            <span class="error-messageProd text-red-600 text-sm"></span>
+                                            <span class="error-messageProd text-red-600 text-sm py-15 px-2"></span>
                                         </div>
                                         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md shadow-sm">Ajouter</button>
                                     </form>
