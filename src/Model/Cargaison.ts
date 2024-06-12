@@ -86,24 +86,24 @@ export abstract class Cargaison {
 
   ajouterProduit(produit: Produit): void {
     if (this.etat !== 'ouvert') {
-      alert("La cargaison n'est pas ouverte, vous ne pouvez pas ajouter de produits");
+      //alert("La cargaison n'est pas ouverte, vous ne pouvez pas ajouter de produits");
       return;
     }
     if (this.etape !== 'en attente') {
-      alert("La cargaison n'est plus en attente, vous ne pouvez pas ajouter de nouveaux produits");
+      //alert("La cargaison n'est plus en attente, vous ne pouvez pas ajouter de nouveaux produits");
       return;
     }
     if (this.estPleine()) {
-      alert("La cargaison est pleine, vous ne pouvez pas ajouter de nouveaux produits");
+      //alert("La cargaison est pleine, vous ne pouvez pas ajouter de nouveaux produits");
       return;
     }
     if (!this.produitEstValide(produit)) {
-      alert("Produit non valide pour cette cargaison");
+      //alert("Produit non valide pour cette cargaison");
       return;
     }
     this.produits.push(produit);
     console.log(`${produit.libelle} ajouté à la cargaison`);
-    alert(`${produit.libelle} ajouté à la cargaison`);
+    //alert(`${produit.libelle} ajouté à la cargaison`);
     this.afficherMontant();
   }
 

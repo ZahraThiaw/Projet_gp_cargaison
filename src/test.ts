@@ -15,10 +15,7 @@ import { Produit, statut, client, destinataire } from './Model/Produit.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  let cargaisons: Cargaison[] = [];
-  let cargaisonCounter = 1;
-  let page = 1;
-  const itemsPerPage = 5; // Nombre d'éléments par page
+  
 
 
 
@@ -494,6 +491,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
+        let cargaisons: Cargaison[] = [];
+        let cargaisonCounter = 1;
+        let page = 1;
+        const itemsPerPage = 5; // Nombre d'éléments par page
+
         const form = document.getElementById("ajouter-cargaison-form") as HTMLFormElement;
         const dialog = document.getElementById("my_modal_3") as HTMLDialogElement;
         const cargaisonTableBody = document.querySelector("#cargaison-table tbody") as HTMLTableSectionElement;
@@ -844,24 +846,25 @@ document.addEventListener("DOMContentLoaded", async () => {
                     console.log(selectedCargaison);
                     Cargos.forEach(cargaison => {
                       if (cargaison._num === selectedCargaison._num) {
+
                         cargaison.ajouterProduit(newProduct);
 
 
                         const fraisduProduit = cargaison.calculerFrais(newProduct);
-                        // Générer le reçu
-                            const receiptContent = `
-                            <h2 class="text-center">Reçu d'achat</h2>
-                            <p><strong>Nom du client:</strong> ${client.name}</p>
-                            <p><strong>Nom du produit:</strong> ${newProduct.libelle}</p>
-                            <p><strong>Code du produit:</strong> ${newProduct._code}</p>
-                            <p><strong>Frais de la cargaison:</strong> ${fraisduProduit} F</p>
-                        `;
+                        // // Générer le reçu
+                        //     const receiptContent = `
+                        //     <h2 class="text-center">Reçu d'achat</h2>
+                        //     <p><strong>Nom du client:</strong> ${client.name}</p>
+                        //     <p><strong>Nom du produit:</strong> ${newProduct.libelle}</p>
+                        //     <p><strong>Code du produit:</strong> ${newProduct._code}</p>
+                        //     <p><strong>Frais de la cargaison:</strong> ${fraisduProduit} F</p>
+                        // `;
 
                         const emailcontentperte: EmailContent = {
                           recipients: [''+newProduct.destinataire.email+'', ''+newProduct.client.email+''],
                           subject: 'Réception de votre produit ' + newProduct.libelle + '',
                           text: 'Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.',
-                          html: receiptContent,
+                          html: '<p>Bonjour, '+ ' \n' + ' Cher client votre produit ' + newProduct.libelle +' a bien été ajouté dans une cargaison. Le code de votre produit est: '+ newProduct._code + ', votre reçu d\'achat en pièce jointe.' + ' \n ' + 'Cordialement l\'équipe de Gp-monde.</p>',
                         };
                         sendEmail(emailcontentperte);
 
@@ -1164,6 +1167,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           });
         
 
+          
+
 
           // Afficher les boutons de pagination
           const paginationContainer = document.getElementById("pagination") as HTMLDivElement;
@@ -1194,11 +1199,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("product-type")?.addEventListener("change", () => {
           const productType = (document.getElementById("product-type") as HTMLSelectElement).value;
           const toxicityLevel = document.getElementById("degre-de-toxicite") as HTMLDivElement;
-          if (productType === "Chimique") {
-            toxicityLevel.classList.remove("hidden");
-          } else {
-            toxicityLevel.classList.add("hidden");
-          }
+          const degretoxicite = document.getElementById("degre-toxicite") as HTMLDivElement;
+          if (productType !== "Chimique") {
+            degretoxicite.classList.add("hidden");
+          } 
+          // else {
+          //   toxicityLevel.classList.add("hidden");
+          // }
         });
 
         const liste_produits = document.getElementById("liste-produits") as HTMLDivElement;
@@ -1487,32 +1494,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         async function sendEmail(emailContent: EmailContent): Promise<void> {
-            const payload = {
-                recipients: emailContent.recipients,
-                subject: emailContent.subject,
-                text: emailContent.text,
-                html: emailContent.html,
-            };
-
-            try {
-                const response = await fetch('../php/sendEmail.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                const result = await response.json();
-                if (result.status === 'success') {
-                    console.log('Email sent successfully');
-                } else {
-                    console.error('Failed to send email:', result.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
+          const payload = {
+              recipients: emailContent.recipients,
+              subject: emailContent.subject,
+              text: emailContent.text,
+              html: emailContent.html,
+          };
+    
+          try {
+              const response = await fetch('../php/sendEmail.php', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(payload),
+              });
+    
+              const result = await response.json();
+              if (result.status === 'success') {
+                  console.log('Email sent successfully');
+              } else {
+                  console.error('Failed to send email:', result.message);
+              }
+          } catch (error) {
+              console.error('Error:', error);
+          }
+      }
 
 
         
@@ -1571,6 +1578,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
     }
 
+
+    // if (valide == 0){
+    //   createNotification({ type: 'error', message: "Email ou mot de passe invalide", duration: 3000 });
+    // }
 
     })
     .catch(error => {

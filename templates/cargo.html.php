@@ -12,12 +12,14 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
         
+        
     </head>
 
 <body class="bg-gray-100">
 
 
-    <div id="user-page" class="container mx-auto px-5 min-h-screen">
+    <div id="user-page" class="container mx-auto px-5 min-h-screen  bg-cover bg-center"  style="background-image: url('../public/images/cargaison.jpg');">
+
         <header>
             <h1 class="text-3xl font-bold text-center p-6 bg-white rounded-b-xl">GP du Monde Transporter vos produits en toute sécurité</h1>
         </header>
@@ -40,14 +42,17 @@
             <button id="login-btn" class="bg-blue-500 text-white py-2 px-4 rounded-md">Se connecter</button>
         </div>
 
-        <div id="product-details" class="mt-10 bg-white p-6 rounded-lg shadow-md hidden">
-            <h2 class="text-2xl font-bold text-blue-600 mb-4">Détails du produit</h2>
-            <div id="product-info" class="text-lg"></div>
+        <div class ="flex justify-center items-center">
+
+            <div id="product-details" class="mt-10 bg-white p-6 rounded-lg shadow-md w-2/3  hidden">
+                <h2 class="text-2xl font-bold text-blue-600 mb-4">Détails du produit</h2>
+                <div id="product-info" class="text-lg"></div>
+            </div>
         </div>
         
     </div>
 
-    <div id="login-page" class="container mx-auto px-5 min-h-screen hidden p-1 max-w-xlshadow-md rounded-xl">
+    <div id="login-page" class="container mx-auto px-5 min-h-screen hidden p-1 max-w-xlshadow-md rounded-xl  bg-cover bg-center" style="background-image: url('../public/images/cargaison.jpg');">
         <header>
             <h1 class="text-3xl font-bold text-center p-6 bg-white rounded-b-xl">GP du Monde Transporter vos produits en toute sécurité</h1>
         </header>
@@ -385,7 +390,7 @@
                                             </select>
                                             <span class="error-messageProd text-red-600 text-sm"></span>
                                         </div>
-                                        <div class="w-1/2">
+                                        <div class="w-1/2" id="degre-toxicite">
                                             <label for="degre-de-toxicite" class="block text-base font-medium text-blue-600">Dégré de toxicité</label>
                                             <input type="number" min="1" max="10" id="degre-de-toxicite" name="degre-de-toxicite"
                                             class="mt-1 block w-11/12 border-gray-300 rounded-md shadow-sm p-2 border-2">
@@ -486,7 +491,7 @@
                 startMarker.on('dragend', function () {
                     getCityName(startMarker.getLatLng(), startInput);
                     calculateDistance();
-                    traceDistance(startInput, endInput);
+                    //traceDistance(startInput, endInput);
                 });
 
             } else if (!endMarker || endInput.value === "") {
@@ -512,11 +517,11 @@
                 endMarker.on('dragend', function () {
                     getCityName(endMarker.getLatLng(), endInput);
                     calculateDistance();
-                    traceDistance(startInput, endInput);
+                    //traceDistance(startInput, endInput);
                 });
 
                 calculateDistance();
-                traceDistance(startInput, endInput);
+                //traceDistance(startInput, endInput);
             }
         });
 
@@ -531,17 +536,17 @@
             }
         }
 
-        function traceDistance(startInput, endInput) {
-          //effacer dabord la ligne si il y en a une
-          if (line) {
+        // function traceDistance(startInput, endInput) {
+        //   //effacer dabord la ligne si il y en a une
+        //   if (line) {
             
-            map.removeLayer(line);
-            line = null;
-          }
-          var distance = startInput.getLatLng().distanceTo(endInput.getLatLng()) / 1000;
-          var line = L.polyline([startInput.getLatLng(), endInput.getLatLng()], { color: 'red' }).addTo(map);
-          return distance;
-        }
+        //     map.removeLayer(line);
+        //     line = null;
+        //   }
+        //   var distance = startInput.getLatLng().distanceTo(endInput.getLatLng()) / 1000;
+        //   var line = L.polyline([startInput.getLatLng(), endInput.getLatLng()], { color: 'red' }).addTo(map);
+        //   return distance;
+        // }
 
         function getCityName(latlng, inputElement) {
             const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`;
